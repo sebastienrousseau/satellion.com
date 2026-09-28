@@ -1,0 +1,19 @@
+/* SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com> */
+/* SPDX-License-Identifier: GPL-3.0-only */
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1200px; height: 630px; }
+body { font-family: "Helvetica Neue", Arial, system-ui, sans-serif; padding: 64px 72px; display: grid; grid-template-rows: auto 1fr auto; }
+.brand { display: flex; align-items: center; gap: 18px; font-size: 40px; font-weight: 700; letter-spacing: -0.02em; }
+.brand img { height: 72px; width: auto; }
+h1 { align-self: center; font-size: 64px; line-height: 1.04; letter-spacing: -0.035em; font-weight: 800; max-width: 17ch; }
+h1 em { font-style: normal; }
+.foot { display: flex; justify-content: space-between; align-items: flex-end; }
+.metrics { display: flex; gap: 48px; }
+.metrics b { display: block; font-size: 44px; letter-spacing: -0.03em; }
+.metrics span { font-size: 18px; opacity: 0.75; }
+.url { font-size: 24px; font-weight: 700; }
+.passmcp { background: #1c1d2c; color: #f6f2ed; }
+.passmcp h1 em, .passmcp .url { color: #f9a12c; }
+.satellion { background: #0f1d40; color: #eef2fa; }
+.satellion h1 em, .satellion .url { color: #c0d83e; }
+.satellion .brand img { height: 96px; }

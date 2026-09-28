@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+version = 1
+SPDX-PackageName = "satellion.com"
+SPDX-PackageSupplier = "Sebastien Rousseau <sebastian.rousseau@gmail.com>"
+SPDX-PackageDownloadLocation = "https://github.com/sebastienrousseau/satellion.com"
+
+# Images and formats that take no comment.
+[[annotations]]
+path = ["images/**", ".gitignore"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-only"
+
+# The layouts are vendored from the passmcp theme in the SSG theme suite
+# (github.com/sebastienrousseau/ssg-themes.github.io), whose theme.json
+# declares MIT, as they were in passmcp's repository. "override" because the
+# footers render a copyright line for the site they build, which is page
+# text about passmcp, not a notice about the template.
+[[annotations]]
+path = ["_layouts/**"]
+precedence = "override"
+SPDX-FileCopyrightText = "2024 - 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>"
+SPDX-License-Identifier = "MIT"
+
+# passmcp's icons, copied from passmcp's brand/ at the release the site is
+# built against, under passmcp's licence.
+[[annotations]]
+path = ["brand/passmcp/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-only"
+
+# The Satellion logo, the lion and the wordmark, published under the site's
+# licence. A copyright licence only: the name and the marks are not licensed.
+[[annotations]]
+path = ["brand/satellion/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-only"

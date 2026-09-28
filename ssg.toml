@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+#
+# The public site at satellion.com, built from this repository with SSG.
+#
+# Satellion's home, and passmcp's pages under /passmcp/. This is
+# deliberately NOT the application: passmcp serve runs on the operator's
+# own machine, because a hosted tester has to be handed a working
+# credential and this one never is. What ships here is what the tools are,
+# how to install them, a real report, and the pages Go and attestation
+# readers resolve.
+site_name = "Satellion"
+site_title = "Satellion — evidence you can check, for the servers your agents trust"
+site_description = "Satellion builds open-source tools that test the infrastructure AI agents connect to and prove what they found, starting with passmcp, the MCP server diagnostic."
+base_url = "https://satellion.com/"
+language = "en-GB"
+
+content_dir = "content"
+template_dir = "_layouts"
+output_dir = "dist"
+
+[agents]
+agents_txt = true
+ai_plugin = true
+
+[agents.mcp]
+enabled = true
+
+[edge_headers]
+targets = ["cloudflare", "netlify"]

@@ -1,0 +1,24 @@
+<header class="site-header satellion-header">
+  <div class="container header-inner">
+    <a class="brand satellion-brand" href="{{site_path}}" aria-label="Satellion home">
+      <img class="satellion-logo logo-for-light" src="{{site_path}}brand/satellion/logo.svg" alt="Satellion" width="148" height="104" /><img class="satellion-logo logo-for-dark" src="{{site_path}}brand/satellion/logo-dark.svg" alt="Satellion" width="148" height="104" />
+    </a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navMenu">
+      <span>Menu</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+    </button>
+    <nav class="site-nav" id="navMenu" aria-label="Primary">
+      <a href="{{site_path}}#build">What we build</a>
+      <a href="{{site_path}}#principles">How we work</a>
+      <a href="{{site_path}}#trust">Trust</a>
+      <a href="{{site_path}}passmcp/docs/">Docs</a>
+      <a href="https://github.com/sebastienrousseau/passmcp" rel="noopener">GitHub</a>
+      <a class="nav-cta" href="{{site_path}}passmcp/">passmcp</a>
+    </nav>
+    <button class="theme-toggle" id="mode-toggle" type="button" data-label-light="Light" data-label-dark="Dark">
+      <span class="visually-hidden">Change colour theme</span>
+      <span class="visually-hidden" id="mode-state" data-label-system="System">System</span>
+      <span class="theme-icon" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>

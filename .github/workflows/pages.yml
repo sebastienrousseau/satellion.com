@@ -1,0 +1,114 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+name: Site
+
+# Builds satellion.com against passmcp's latest release and deploys it from
+# main. The daily run is what keeps the site on the newest release without
+# a token from passmcp's repository: the Makefile resolves the newest tag, so
+# a release reaches the site within a day, and the page's numbers are
+# checked against that release's own sample report on every build.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          show-progress: false
+
+      - name: The README follows the template
+        run: scripts/readme-check.sh
+
+      - name: The retired name appears nowhere
+        run: ./scripts/name-guard.sh
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: stable
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      # The site's own scripts: the security.txt check, whose 30-day expiry
+      # rule is part of the EU CRA evidence, and the Go module page check.
+      - name: The site's scripts pass their tests
+        run: make test
+
+      - name: Install SSG
+        run: cargo install ssg --locked --version 0.0.63
+
+      # The full site needs a passmcp release; until the first exists, the
+      # core pages deploy alone, because Go needs the module pages to fetch
+      # that first release.
+      - name: Is there a passmcp release?
+        id: release
+        run: |
+          tag=$(git ls-remote --tags --refs https://github.com/sebastienrousseau/passmcp 'v*' | head -n1)
+          echo "exists=$([ -n "$tag" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      # On a pull request the committed pages must already equal the latest
+      # release's sample report; `make data` fixes them.
+      - name: The pages' numbers match passmcp's sample report
+        if: github.event_name == 'pull_request' && steps.release.outputs.exists == 'true'
+        run: make check-data
+
+      # `make site` rewrites the numbers from the release it builds against,
+      # so a deployed page always shows that release's own output.
+      - name: Build the site against passmcp's latest release
+        if: steps.release.outputs.exists == 'true'
+        run: make site
+
+      - name: Build the pages that need no release
+        if: steps.release.outputs.exists != 'true'
+        run: make core
+
+      - name: Upload the site
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
