@@ -13,11 +13,22 @@ import sys
 from pathlib import Path
 
 REPO = "https://github.com/sebastienrousseau"
-MODULES = ["passmcp", "passmcp-reporting", "passmcp-server", "passmcp-graph", "passmcp-registry"]
+ROOTS = ["passmcp", "passmcp-reporting", "passmcp-server", "passmcp-graph", "passmcp-registry"]
+# A nested module (its own go.mod in a subdirectory) is fetched at its own
+# path, so it needs its own page. The tag on it names the repository root:
+# Go accepts a go-import prefix of the path it asked for, then finds the
+# module in the subdirectory.
+NESTED = {"passmcp-reporting/integrations/agentgateway-extmcp": "passmcp-reporting"}
+MODULES = ROOTS + list(NESTED)
+
+
+def root_of(module):
+    return NESTED.get(module, module)
 
 
 def expected(module):
-    return f'<meta name="go-import" content="satellion.com/{module} git {REPO}/{module}" />'
+    r = root_of(module)
+    return f'<meta name="go-import" content="satellion.com/{r} git {REPO}/{r}" />'
 
 
 def problems(site):
@@ -29,7 +40,7 @@ def problems(site):
             continue
         html = page.read_text()
         if expected(m) not in html:
-            out.append(f"{m}: /{m}/ has no go-import tag for satellion.com/{m}")
+            out.append(f"{m}: /{m}/ has no go-import tag for satellion.com/{root_of(m)}")
         if html.count('name="go-import"') != 1:
             out.append(f"{m}: /{m}/ must carry exactly one go-import tag")
     return out

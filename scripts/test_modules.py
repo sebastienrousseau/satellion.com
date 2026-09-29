@@ -37,7 +37,15 @@ class Modules(unittest.TestCase):
         root = Path(__file__).parent.parent / "content"
         for m in modules.MODULES:
             front = (root / m / "index.md").read_text()
-            self.assertIn(f'go_import: "satellion.com/{m} git {modules.REPO}/{m}"', front)
+            r = modules.root_of(m)
+            self.assertIn(f'go_import: "satellion.com/{r} git {modules.REPO}/{r}"', front)
+
+    def test_a_nested_module_page_must_name_its_repository_root(self):
+        nested = "passmcp-reporting/integrations/agentgateway-extmcp"
+        pages = {m: f"<head>{modules.expected(m)}</head>" for m in modules.MODULES}
+        pages[nested] = f'<meta name="go-import" content="satellion.com/{nested} git {modules.REPO}/{nested}" />'
+        found = "\n".join(modules.problems(site(pages)))
+        self.assertIn(f"{nested}: /{nested}/ has no go-import tag for satellion.com/passmcp-reporting", found)
 
 
 if __name__ == "__main__":
