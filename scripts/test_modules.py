@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
 # SPDX-License-Identifier: GPL-3.0-only
 """Tests for modules.py. Run: python3 -m unittest discover -s scripts"""
+import contextlib
+import io
 import sys
 import tempfile
 import unittest
@@ -46,6 +48,28 @@ class Modules(unittest.TestCase):
         pages[nested] = f'<meta name="go-import" content="satellion.com/{nested} git {modules.REPO}/{nested}" />'
         found = "\n".join(modules.problems(site(pages)))
         self.assertIn(f"{nested}: /{nested}/ has no go-import tag for satellion.com/passmcp-reporting", found)
+
+    def test_the_language_server_and_the_census_have_module_pages(self):
+        for m in ("passmcp-lsp", "passmcp-census"):
+            self.assertIn(m, modules.ROOTS)
+            front = (Path(__file__).parent.parent / "content" / m / "index.md").read_text()
+            self.assertIn(f'go_source: "satellion.com/{m} {modules.REPO}/{m} ', front)
+
+    def test_main_reports_success_on_stdout_and_problems_on_stderr(self):
+        good = site({m: f"<head>{modules.expected(m)}</head>" for m in modules.MODULES})
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            modules.main(["modules.py", good])
+            with self.assertRaises(SystemExit) as e:
+                modules.main(["modules.py", site({})])
+        self.assertEqual(e.exception.code, 1)
+        self.assertIn(f"{len(modules.MODULES)} Go module paths resolve", out.getvalue())
+        self.assertIn("modules: passmcp: no page at /passmcp/", err.getvalue())
+
+    def test_main_without_a_directory_prints_the_usage(self):
+        with self.assertRaises(SystemExit) as e:
+            modules.main(["modules.py"])
+        self.assertIn("usage", str(e.exception))
 
 
 if __name__ == "__main__":

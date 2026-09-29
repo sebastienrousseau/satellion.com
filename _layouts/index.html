@@ -45,8 +45,8 @@
         <tr><th scope="row">Every finding cites the request that showed it</th><td class="yes">Yes, with a HAR file</td><td>By hand</td><td class="no">No</td><td class="no">No</td><td class="no">Not documented</td></tr>
         <tr><th scope="row">Gates CI with an exit code, SARIF and JUnit</th><td class="yes">Yes</td><td class="no">Not its purpose</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">Not documented</td></tr>
         <tr><th scope="row">Runs where your credentials already are</th><td class="yes">Your machine or CI</td><td class="yes">Your machine</td><td class="yes">Offline or CI</td><td>Local, with a cloud API</td><td class="no">Vendor-hosted</td></tr>
-        <tr><th scope="row">Finds agents and MCP servers across an organisation</th><td>Planned (<a href="https://github.com/sebastienrousseau/passmcp/issues/5">#5</a>)</td><td class="no">No</td><td class="no">No</td><td class="yes">From client configurations</td><td class="yes">Yes</td></tr>
-        <tr><th scope="row">Maps identities, grants and reach as a graph</th><td>Planned (<a href="https://github.com/sebastienrousseau/passmcp/issues/4">#4</a>)</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td></tr>
+        <tr><th scope="row">Finds agents and MCP servers across an organisation</th><td class="yes">From the sources you name: <a href="https://github.com/sebastienrousseau/passmcp/releases/tag/v0.0.1">released in 0.0.1</a></td><td class="no">No</td><td class="no">No</td><td class="yes">From client configurations</td><td class="yes">Yes</td></tr>
+        <tr><th scope="row">Maps identities, grants and reach as a graph</th><td class="yes">passmcp-graph: <a href="https://github.com/sebastienrousseau/passmcp-graph/releases/tag/v0.0.1">released in 0.0.1</a></td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td></tr>
         <tr><th scope="row">Open source</th><td class="yes">GPL-3.0; format Apache-2.0</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No</td></tr>
       </tbody>
     </table>
@@ -112,14 +112,7 @@
   </tbody></table></div></div>
 </section>
 
-<section class="section section-soft" id="roadmap" aria-labelledby="roadmap-heading">
-  <div class="container split-heading"><div><p class="eyebrow">{{roadmap_eyebrow}}</p><h2 id="roadmap-heading">{{roadmap_title}}</h2></div><p class="lead">{{roadmap_lead}}</p></div>
-  <div class="container cards">
-    <article><span>Planned</span><h3><a href="https://github.com/sebastienrousseau/passmcp/issues/5">{{road_one_title}}</a></h3><p>{{road_one_text}}</p></article>
-    <article><span>Planned</span><h3><a href="https://github.com/sebastienrousseau/passmcp/issues/4">{{road_two_title}}</a></h3><p>{{road_two_text}}</p></article>
-    <article><span>Planned</span><h3><a href="https://github.com/sebastienrousseau/passmcp/issues/1">{{road_three_title}}</a></h3><p>{{road_three_text}}</p></article>
-  </div>
-</section>
+{{> family}}
 
 <section class="section" id="faq" aria-labelledby="faq-heading">
   <div class="container split-heading"><div><p class="eyebrow">{{faq_eyebrow}}</p><h2 id="faq-heading">{{faq_title}}</h2></div><p class="lead">{{faq_lead}}</p></div>

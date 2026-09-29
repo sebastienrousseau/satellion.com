@@ -49,7 +49,7 @@ product_three_text: "The in-toto predicates passmcp writes, their JSON Schemas a
 product_three_link: "attestation/mcp-evaluation/v1/"
 product_three_cta: "Read the format"
 product_four_title: "A public scorecard"
-product_four_text: "Every remote server in the MCP Registry, checked read-only and without credentials, each result an attestation. In preparation: findings go to their owners first."
+product_four_text: "Every remote server in the MCP Registry, checked read-only and without credentials, each result an attestation, and anything that would expose a vulnerability withheld for its owner first. Released in passmcp-registry 0.0.1."
 product_four_link: "https://github.com/sebastienrousseau/passmcp-registry"
 product_four_cta: "Follow the registry"
 

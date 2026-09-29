@@ -13,7 +13,17 @@ import sys
 from pathlib import Path
 
 REPO = "https://github.com/sebastienrousseau"
-ROOTS = ["passmcp", "passmcp-reporting", "passmcp-server", "passmcp-graph", "passmcp-registry"]
+# One page per Go module in the family. passmcp-action is not a Go module
+# (it is a GitHub Action and a GitLab CI template), so it has no page here.
+ROOTS = [
+    "passmcp",
+    "passmcp-reporting",
+    "passmcp-server",
+    "passmcp-graph",
+    "passmcp-registry",
+    "passmcp-lsp",
+    "passmcp-census",
+]
 # A nested module (its own go.mod in a subdirectory) is fetched at its own
 # path, so it needs its own page. The tag on it names the repository root:
 # Go accepts a go-import prefix of the path it asked for, then finds the

@@ -1,0 +1,56 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+# Local mirrors of the cheap CI gates, so the red appears before the push.
+#
+#   pip install pre-commit && pre-commit install
+default_install_hook_types: [pre-commit]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+        exclude: ^(images|brand)/
+      - id: trailing-whitespace
+        exclude: ^(images|brand)/|\.md$
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-json
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1
+    hooks:
+      - id: codespell
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.18.1
+    hooks:
+      - id: markdownlint-cli2
+
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v6.2.0
+    hooks:
+      - id: reuse
+
+  - repo: local
+    hooks:
+      - id: unittest
+        name: the site's scripts' tests
+        entry: make test
+        language: system
+        pass_filenames: false
+        files: ^scripts/
+      - id: name-guard
+        name: no retired product name
+        entry: ./scripts/name-guard.sh
+        language: system
+        pass_filenames: false
+      - id: readme-check
+        name: README follows the template
+        entry: scripts/readme-check.sh
+        language: system
+        pass_filenames: false
+        files: ^README\.md$

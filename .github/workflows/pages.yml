@@ -7,7 +7,9 @@ name: Site
 # main. The daily run is what keeps the site on the newest release without
 # a token from passmcp's repository: the Makefile resolves the newest tag, so
 # a release reaches the site within a day, and the page's numbers are
-# checked against that release's own sample report on every build.
+# checked against that release's own sample report on every build. The
+# deployed site also carries coverage.json, the endpoint document behind
+# the README's coverage badge.
 
 on:
   push:
@@ -86,6 +88,11 @@ jobs:
       - name: Build the pages that need no release
         if: steps.release.outputs.exists != 'true'
         run: make core
+
+      # The README's coverage badge reads https://satellion.com/coverage.json,
+      # measured from the commit being deployed and gated as ci.yml gates it.
+      - name: Publish the coverage badge's data
+        run: make coverage-publish
 
       - name: Upload the site
         if: github.event_name != 'pull_request'

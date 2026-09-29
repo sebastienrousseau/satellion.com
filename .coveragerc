@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+#
+# coverage.py over the site's build scripts, as `make coverage` runs it.
+# The tests themselves are not measured: a test file's own lines say
+# nothing about how much of the build the tests exercise.
+[run]
+branch = True
+source = scripts
+omit = scripts/test_*.py
+data_file = .build/.coverage
+
+[report]
+# The script entry point is exercised through main(), which the tests call.
+exclude_also =
+    if __name__ == .__main__.:

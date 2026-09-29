@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/sebastienrousseau/satellion.github.io/security/advisories/new
+    about: Report privately. Do not open a public issue for a security problem.
+  - name: A problem with passmcp itself
+    url: https://github.com/sebastienrousseau/passmcp/issues/new/choose
+    about: The site describes passmcp; a bug in the tool or a verdict it reached is passmcp's to fix.

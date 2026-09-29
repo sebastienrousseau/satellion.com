@@ -26,11 +26,12 @@ LABELS = {
 }
 
 
-def fields(report):
+def readout(report):
+    """The headline figures: score, grade, target, verdict and counts."""
     score = report["score"]
     counts = report["counts"]
     total = sum(counts.values())
-    out = {
+    return {
         "readout_score": f"{score['total']:g}",
         "readout_grade": score["grade"],
         "readout_target": f"{report['server']['name']} {report['server']['version']}, passmcp's deliberately flawed fixture server",
@@ -41,29 +42,50 @@ def fields(report):
             f"{counts['fail']} fail · {counts['skip']} skipped · {counts['info']} info"
         ),
     }
-    for i, cat in enumerate(score["categories"], start=1):
+
+
+def status(score):
+    return "pass" if score >= 90 else ("warn" if score >= 50 else "fail")
+
+
+def ledger(categories):
+    """One ledger row per scoring category, in the report's order."""
+    out = {}
+    for i, cat in enumerate(categories, start=1):
         lost = cat["weight"] * (100 - cat["score"]) / 100
         out[f"ledger_{i}_area"] = LABELS.get(cat["name"], cat["name"].title())
         out[f"ledger_{i}_weight"] = str(cat["weight"])
         out[f"ledger_{i}_score"] = f"{cat['score']:g}"
-        out[f"ledger_{i}_status"] = "pass" if cat["score"] >= 90 else ("warn" if cat["score"] >= 50 else "fail")
+        out[f"ledger_{i}_status"] = status(cat["score"])
         out[f"ledger_{i}_deduction"] = "0" if lost == 0 else f"−{lost:g}"
-    # The nine phases, in the order the report ran them.
-    for i, phase in enumerate(report["phases"], start=1):
-        out[f"phase_{i}"] = phase.get("title") or phase["name"]
-    # Two findings as the evidence cards: failures that cite the request
-    # that showed them, first in report order.
+    return out
+
+
+def evidence(phases):
+    """Two findings as the evidence cards: failures that cite the request
+    that showed them, first in report order."""
     cited = [
-        f for phase in report["phases"] for f in phase.get("findings") or []
+        f for phase in phases for f in phase.get("findings") or []
         if f.get("status") == "fail" and f.get("evidence")
     ]
     if len(cited) < 2:
         sys.exit("site_data: the sample report has fewer than two cited failures to show")
+    out = {}
     for i, f in enumerate(cited[:2], start=1):
         out[f"evidence_{i}_req"] = ", ".join(f["evidence"])
         out[f"evidence_{i}_id"] = f["id"]
         out[f"evidence_{i}_title"] = f["title"]
         out[f"evidence_{i}_detail"] = f["detail"].replace('"', "'")
+    return out
+
+
+def fields(report):
+    out = readout(report)
+    out.update(ledger(report["score"]["categories"]))
+    # The nine phases, in the order the report ran them.
+    for i, phase in enumerate(report["phases"], start=1):
+        out[f"phase_{i}"] = phase.get("title") or phase["name"]
+    out.update(evidence(report["phases"]))
     return out
 
 
@@ -97,6 +119,21 @@ def apply(text, values):
     return text
 
 
+def stale_files(report, page_path, count):
+    """Each count file whose text differs from what the release says, with
+    the text it should have."""
+    out = {}
+    for path in COUNT_FILES:
+        text = Path(path).read_text()
+        new = COUNT_PATTERN.sub(count, text)
+        if path == page_path:
+            new = pin_install(apply(new, fields(report)), report["passmcp"]["version"])
+            new = apply(new, {"metric_one_value": count})
+        if new != text:
+            out[path] = new
+    return out
+
+
 def main(argv):
     args = [a for a in argv[1:] if a != "--check"]
     check = "--check" in argv[1:]
@@ -105,22 +142,15 @@ def main(argv):
     report_path, page_path, checks_md = args
     report = json.loads(Path(report_path).read_text())
     count = check_count(checks_md)
-    stale = []
-    for path in COUNT_FILES:
-        text = Path(path).read_text()
-        new = COUNT_PATTERN.sub(count, text)
-        if path == page_path:
-            new = pin_install(apply(new, fields(report)), report["passmcp"]["version"])
-            new = apply(new, {"metric_one_value": count})
-        if new != text:
-            stale.append(path)
-            if not check:
-                Path(path).write_text(new)
+    stale = stale_files(report, page_path, count)
+    version = report["passmcp"]["version"]
+    if check and stale:
+        sys.exit(f"site_data: {', '.join(stale)} disagree with passmcp {version}; run make data")
     if check:
-        if stale:
-            sys.exit(f"site_data: {', '.join(stale)} disagree with passmcp {report['passmcp']['version']}; run make data")
-        print(f"site_data: the page matches passmcp {report['passmcp']['version']}: {count} checks, score {report['score']['total']:g}")
+        print(f"site_data: the page matches passmcp {version}: {count} checks, score {report['score']['total']:g}")
         return
+    for path, new in stale.items():
+        Path(path).write_text(new)
     print(f"site_data: {count} checks and the sample report written into " + (", ".join(stale) if stale else "nothing (already current)"))
 
 

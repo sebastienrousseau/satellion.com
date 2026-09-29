@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+[codespell]
+skip = ./.build,./dist,./.git,./images,./brand,./LICENSE,./LICENSES,./scripts/requirements.txt,./_layouts/skeletonic.min.css,*.svg,*.png,*.webp,*.ico
+quiet-level = 3

@@ -1,8 +1,11 @@
 # SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
 # SPDX-License-Identifier: GPL-3.0-only
 """Tests for security_txt.py. Run: python3 -m unittest discover -s scripts"""
+import contextlib
 import datetime
+import io
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -53,6 +56,28 @@ class SecurityTxt(unittest.TestCase):
         for key in ("security_contact", "security_expires", "security_policy", "security_canonical"):
             self.assertIn(f"{key}:", front)
         self.assertIn('security_policy: "https://github.com/sebastienrousseau/passmcp/security/policy"', front)
+
+    def test_main_accepts_a_good_file_and_rejects_a_bad_one_on_stderr(self):
+        with tempfile.TemporaryDirectory() as d:
+            good, bad = Path(d, "good.txt"), Path(d, "bad.txt")
+            # main() reads the clock, so the file expires a year from now.
+            later = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=365)
+            fresh = GOOD.replace("2027-09-27T00:00:00Z", later.strftime("%Y-%m-%dT%H:%M:%SZ"))
+            good.write_text(fresh)
+            bad.write_text(fresh.replace("Contact:", "X:"))
+            out, err = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+                security_txt.main(["security_txt.py", str(good)])
+                with self.assertRaises(SystemExit) as e:
+                    security_txt.main(["security_txt.py", str(bad)])
+        self.assertEqual(e.exception.code, 1)
+        self.assertIn("is complete and valid", out.getvalue())
+        self.assertIn("security_txt: security.txt has no Contact field", err.getvalue())
+
+    def test_main_without_a_file_prints_the_usage(self):
+        with self.assertRaises(SystemExit) as e:
+            security_txt.main(["security_txt.py"])
+        self.assertIn("usage", str(e.exception))
 
 
 if __name__ == "__main__":
