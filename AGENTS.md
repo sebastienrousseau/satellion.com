@@ -58,7 +58,7 @@ equivalent of every CI gate. This file is only the constraints.
   from the SSG theme suite; `REUSE.toml` records it.
 - **`/highlight.css` is copied from a fingerprinted file.** SSG 0.0.63 links
   the plain name; the Makefile says why.
-- **The ecosystem table says every component is at 0.0.1.** That is the
+- **The ecosystem table says every component is at 0.0.2.** That is the
   family's lockstep version, stated identically in every repository.
 
 ## Scope

@@ -79,8 +79,15 @@ jobs:
         if: github.event_name == 'pull_request' && steps.release.outputs.exists == 'true'
         run: make check-data
 
-      # `make site` rewrites the numbers from the release it builds against,
-      # so a deployed page always shows that release's own output.
+      # Likewise the family table must equal the release's ecosystem.json;
+      # `make family` fixes it.
+      - name: The family table matches passmcp's ecosystem.json
+        if: github.event_name == 'pull_request' && steps.release.outputs.exists == 'true'
+        run: make check-family
+
+      # `make site` rewrites the numbers and the family table from the
+      # release it builds against, so a deployed page always shows that
+      # release's own output.
       - name: Build the site against passmcp's latest release
         if: steps.release.outputs.exists == 'true'
         run: make site

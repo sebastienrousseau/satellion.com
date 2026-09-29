@@ -41,7 +41,7 @@ CI job; the command reproduces it locally.
 | The core pages build | `make core` | `ci.yml`, `pages.yml` |
 | The full site builds against a passmcp release | `make site` | `pages.yml` |
 | The product page's numbers match the release | `make check-data` | `pages.yml` on pull requests |
-| The family table matches the release's `ecosystem.json` | `make check-family` | not yet: from passmcp 0.0.2, whose manifest is schema 2 |
+| The family table matches the release's `ecosystem.json` | `make check-family` | `pages.yml` on pull requests |
 | README follows the template | `make readme-check` | `docs-lint.yml`, `pages.yml` |
 | No retired product name | `make name-guard` | `docs-lint.yml`, `pages.yml` |
 | Markdown and spelling | `make lint` | `docs-lint.yml` |

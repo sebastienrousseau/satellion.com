@@ -183,7 +183,7 @@ evidence_2_req: "req#12"
 evidence_2_id: "protocol.unknown_tool"
 evidence_2_title: "Unknown tool is reported"
 evidence_2_detail: "calling a non-existent tool returned success"
-readout_version: "0.0.1"
+readout_version: "0.0.2"
 ---
 
 ## Install
@@ -193,7 +193,7 @@ brew install sebastienrousseau/tap/passmcp     # macOS and Linux
 yay -S passmcp                                 # Arch Linux, or: paru -S passmcp
 mise use -g github:sebastienrousseau/passmcp   # with mise
 nix run github:sebastienrousseau/passmcp -- --help
-go install satellion.com/passmcp/cmd/passmcp@v0.0.1
+go install satellion.com/passmcp/cmd/passmcp@v0.0.2
 ```
 
 Then point it at a server:

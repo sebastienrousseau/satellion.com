@@ -23,7 +23,7 @@ headline: "satellion.com/passmcp-census"
 lead: "The published MCP reliability census: the dataset, the methodology, the disclosure log and the command that reproduces the figures."
 ---
 
-The module path resolves to its repository, which holds the census's reproduction command. It has no release yet, so there is no version to install; the first release is 0.0.1, in lockstep with the rest of the passmcp family.
+The module path resolves to its repository, which holds the census's reproduction command. It has no release yet, so there is no version to install; the first release is 0.0.2, in lockstep with the rest of the passmcp family.
 
 - Source: [github.com/sebastienrousseau/passmcp-census](https://github.com/sebastienrousseau/passmcp-census)
 - API documentation: [pkg.go.dev/satellion.com/passmcp-census](https://pkg.go.dev/satellion.com/passmcp-census)

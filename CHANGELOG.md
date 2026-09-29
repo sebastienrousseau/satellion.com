@@ -7,7 +7,7 @@ All notable changes to satellion.com are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions move by
 0.0.1 a release, as across the passmcp family.
 
-## [0.0.2]
+## [0.0.2] — 2026-09-29
 
 ### Added
 
@@ -41,6 +41,10 @@ All notable changes to satellion.com are documented here. The format follows
   smaller functions to meet those ceilings; their output is unchanged.
 - The README's badges, ecosystem table and statuses follow the family
   standard.
+- Built against passmcp 0.0.2: the product page, the Go module pages and the
+  README name 0.0.2, and the deploy renders the family table from that
+  release's `ecosystem.json` (schema 2), which pull requests check with
+  `make check-family`.
 
 ### Removed
 

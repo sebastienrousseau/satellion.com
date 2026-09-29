@@ -10,7 +10,7 @@
 .PHONY: all core site passmcp sample data check-data family check-family manual test coverage coverage-publish verify-versions readme-check lint complexity check serve clean help name-guard
 
 PASSMCP_REPO ?= https://github.com/sebastienrousseau/passmcp
-# The latest release tag unless one is named: make site PASSMCP_REF=v0.0.1
+# The latest release tag unless one is named: make site PASSMCP_REF=v0.0.2
 PASSMCP_REF  ?= $(shell git ls-remote --tags --refs --sort=-v:refname $(PASSMCP_REPO) 'v*' | head -n1 | sed 's|.*refs/tags/||')
 SSG_VERSION ?= 0.0.63
 WORK := .build
@@ -45,10 +45,10 @@ check-data: sample
 	python3 scripts/site_data.py $(WORK)/sample/report.json content/passmcp/index.md $(WORK)/passmcp/docs/checks.md --check
 
 # The family table on the company page and passmcp's page, from the
-# ecosystem.json of the passmcp release being built. Not yet part of data
-# or check-data: passmcp 0.0.1's manifest (schema 1) predates the graph and
-# registry rows, so it cannot render the table this repository states.
-# From passmcp 0.0.2 on, render and check against the release.
+# ecosystem.json of the passmcp release being built. site renders it from
+# that release, as it does the numbers, and pull requests run check-family
+# beside check-data. passmcp 0.0.2 publishes schema 2; family.py still reads
+# schema 1, which passmcp 0.0.1 published.
 FAMILY_MANIFEST ?= $(WORK)/passmcp/ecosystem.json
 
 family: passmcp
@@ -137,8 +137,8 @@ core:
 	@echo "core: built $(DIST)"
 
 # site is core plus what comes from the passmcp release: the numbers on the
-# product page, the manual and the sample report.
-site: data manual core
+# product page, the family table, the manual and the sample report.
+site: data family manual core
 	cp -R $(WORK)/manual $(DIST)/passmcp/docs
 	cp -R $(WORK)/sample $(DIST)/passmcp/sample
 	# Last, because it indexes the finished tree.
