@@ -112,15 +112,15 @@ Every component is released at **0.0.2** and moves in lockstep: one version acro
 | Company page | Satellion's home, from `content/index.md` and the `company` layout | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
 | Product page | passmcp's page at `/passmcp/`, from `content/passmcp/index.md` | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
 | Go module pages | `satellion.com/passmcp`, `/passmcp-reporting` (and its nested agentgateway module), `/passmcp-server`, `/passmcp-graph` and `/passmcp-registry` resolve to their repositories | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
-| Go module pages | `satellion.com/passmcp-lsp` and `satellion.com/passmcp-census` resolve to their repositories | [Not yet released](CHANGELOG.md#002--2026-09-29) |
+| Go module pages | `satellion.com/passmcp-lsp` and `satellion.com/passmcp-census` resolve to their repositories | [Not yet released](CHANGELOG.md#003) |
 | Format pages | The attestation and graph format URIs resolve to their specifications | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
 | Numbers | Score, grade, counts, ledger, phases and evidence from passmcp's sample report | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
 | Manual | passmcp's `docs/`, built with MkDocs `--strict`, at `/passmcp/docs/` | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
 | Sample | passmcp's real report against its fixture server, at `/passmcp/sample/` | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
 | security.txt | RFC 9116 at `/.well-known/security.txt`, failing the build 30 days before it expires | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
 | Social cards | Rendered from `cards/` by `scripts/cards.py` | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
-| Family listing | All nine components with their release status, and the rejected ones with the reason, on the company and product pages, rendered from passmcp's `ecosystem.json` | [Not yet released](CHANGELOG.md#002--2026-09-29) |
-| Coverage badge | `/coverage.json`, the scripts' coverage measured on every deploy | [Not yet released](CHANGELOG.md#002--2026-09-29) |
+| Family listing | All nine components with their release status, and the rejected ones with the reason, on the company and product pages, rendered from passmcp's `ecosystem.json` | [Not yet released](CHANGELOG.md#003) |
+| Coverage badge | `/coverage.json`, the scripts' coverage measured on every deploy | [Not yet released](CHANGELOG.md#003) |
 
 ---
 
