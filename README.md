@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: GPL-3.0-only -->
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/sebastienrousseau/satellion.com/main/brand/satellion/logo.svg" alt="Satellion logo" width="180" />
+  <img src="https://raw.githubusercontent.com/sebastienrousseau/satellion.github.io/main/brand/satellion/logo.svg" alt="Satellion logo" width="180" />
 </p>
 
 <h1 align="center">satellion.com</h1>
@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/sebastienrousseau/satellion.com/actions"><img src="https://img.shields.io/github/actions/workflow/status/sebastienrousseau/satellion.com/pages.yml?style=for-the-badge&logo=github" alt="Build" /></a>
+  <a href="https://github.com/sebastienrousseau/satellion.github.io/actions"><img src="https://img.shields.io/github/actions/workflow/status/sebastienrousseau/satellion.github.io/pages.yml?style=for-the-badge&logo=github" alt="Build" /></a>
   <a href="https://satellion.com/"><img src="https://img.shields.io/badge/site-satellion.com-214186?style=for-the-badge" alt="Site" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0-blue.svg?style=for-the-badge" alt="License: GPL-3.0-only" /></a>
 </p>
@@ -55,7 +55,7 @@
 
 ```sh
 cargo install ssg --locked --version 0.0.63
-git clone https://github.com/sebastienrousseau/satellion.com
+git clone https://github.com/sebastienrousseau/satellion.github.io
 ```
 
 ---

@@ -4,7 +4,7 @@
 version = 1
 SPDX-PackageName = "satellion.com"
 SPDX-PackageSupplier = "Sebastien Rousseau <sebastian.rousseau@gmail.com>"
-SPDX-PackageDownloadLocation = "https://github.com/sebastienrousseau/satellion.com"
+SPDX-PackageDownloadLocation = "https://github.com/sebastienrousseau/satellion.github.io"
 
 # Images and formats that take no comment.
 [[annotations]]

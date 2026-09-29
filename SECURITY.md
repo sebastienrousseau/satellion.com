@@ -13,7 +13,7 @@ the site sets no cookies and runs no analytics.
   [passmcp's security policy](https://github.com/sebastienrousseau/passmcp/blob/main/SECURITY.md).
 - **In this site**, for example injected content, a misconfigured header or
   a compromised build: report it privately through
-  [GitHub security advisories](https://github.com/sebastienrousseau/satellion.com/security/advisories/new).
+  [GitHub security advisories](https://github.com/sebastienrousseau/satellion.github.io/security/advisories/new).
   Please do not open a public issue.
 
 Reports are acknowledged within 72 hours, as for passmcp.
