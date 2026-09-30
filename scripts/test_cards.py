@@ -13,8 +13,8 @@ import stat
 import sys
 import tempfile
 import unittest
+import unittest.mock
 from pathlib import Path
-from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).parent))
 import cards
@@ -43,7 +43,7 @@ def tree(front='metric_one_value: "131"\n'):
         chrome = root / "bin/chrome"
         chrome.write_text(STUB)
         chrome.chmod(chrome.stat().st_mode | stat.S_IXUSR)
-        with mock.patch.object(cards, "ROOT", root):
+        with unittest.mock.patch.object(cards, "ROOT", root):
             yield root, str(chrome)
 
 
