@@ -119,7 +119,7 @@ Every component is released at **0.0.3** and moves in lockstep: one version acro
 | Sample | passmcp's real report against its fixture server, at `/passmcp/sample/` | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
 | security.txt | RFC 9116 at `/.well-known/security.txt`, failing the build 30 days before it expires | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
 | Social cards | Rendered from `cards/` by `scripts/cards.py` | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
-| Family listing | All nine components with their release status, and the rejected ones with the reason, on the company and product pages, rendered from passmcp's `ecosystem.json` | [Released in 0.0.3](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.3) |
+| Family listing | All nine components with their release status, on the company and product pages, rendered from passmcp's `ecosystem.json` | [Released in 0.0.3](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.3) |
 | Coverage badge | `/coverage.json`, the scripts' coverage measured on every deploy | [Released in 0.0.3](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.3) |
 
 ---

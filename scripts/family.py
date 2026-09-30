@@ -51,7 +51,6 @@ def row(entry):
         "url": f"{REPO}/{repository}",
         "status": status,
         "role": entry.get("role", ""),
-        "reason": entry.get("rejected_because", ""),
     }
 
 
@@ -74,11 +73,6 @@ def component_row(r, version):
     name, role = html.escape(r["name"]), html.escape(r["role"])
     link = f'<a href="{r["url"]}" rel="noopener">{name}</a>'
     return f'        <tr><th scope="row">{link}</th><td>{role}</td><td>{status_cell(r, version)}</td></tr>'
-
-
-def rejected_row(r):
-    name, role, reason = (html.escape(r[k]) for k in ("name", "role", "reason"))
-    return f'        <tr><th scope="row">{name}</th><td>{role}</td><td>{reason}</td></tr>'
 
 
 def table(label, caption, head, rows):
@@ -107,13 +101,8 @@ def render(schema, rows, version):
         table("The passmcp family", "The components of the passmcp family, what each is for, and its release status",
               "Status", [component_row(r, version) for r in built]),
     ]
-    rejected = [rejected_row(r) for r in rows if r["status"] == "rejected"]
-    if rejected:
-        parts += [
-            '  <div class="container"><h3 id="ecosystem-rejected">Considered and rejected</h3><p>Components proposed for the family and decided against, with the reason.</p></div>',
-            table("Rejected components", "Components considered for the passmcp family and rejected, with the reason",
-                  "Why not", rejected),
-        ]
+    # Rejected components are recorded in passmcp's docs/ecosystem.md; the
+    # site lists only what the family is.
     return "\n".join(parts + ["</section>", ""])
 
 

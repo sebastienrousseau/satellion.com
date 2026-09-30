@@ -19,17 +19,4 @@
       </tbody>
     </table>
   </div></div>
-  <div class="container"><h3 id="ecosystem-rejected">Considered and rejected</h3><p>Components proposed for the family and decided against, with the reason.</p></div>
-  <div class="container"><div class="table-scroll" role="region" aria-label="Rejected components, scrollable horizontally" tabindex="0">
-    <table>
-      <caption class="visually-hidden">Components considered for the passmcp family and rejected, with the reason</caption>
-      <thead><tr><th scope="col">Component</th><th scope="col">Purpose</th><th scope="col">Why not</th></tr></thead>
-      <tbody>
-        <tr><th scope="row">passmcp-gateway</th><td>An in-path MCP gateway.</td><td>Fourteen incumbents, two of them free and open source, one of them AWS. Being in the data path would also convert passmcp from a tool that touches nothing into a production dependency trusted with traffic.</td></tr>
-        <tr><th scope="row">passmcp-wasm</th><td>A browser build of the engine.</td><td>CORS blocks a browser build against most servers. A build target, not a repository.</td></tr>
-        <tr><th scope="row">passmcp-proxy</th><td>An in-path proxy that inspects, or sanitises and rewrites, live traffic between an agent and a server (also proposed as passmcp-inspector and passmcp-shield).</td><td>The gateway again under another name: in the data path is in the data path whether it only watches or also rewrites (ADR 0007). A rewriting shield would also judge by classifier rather than cite the request that showed the property (ADR 0002). Live inspection is the official MCP Inspector&#x27;s job.</td></tr>
-        <tr><th scope="row">passmcp-fuzz</th><td>A stress and fuzzing tool that sends servers malformed input, oversized payloads and connection churn (also proposed as passmcp-chaos).</td><td>An adversarial mode in its own repository, which ADR 0008 rules out behind a flag and behind a verb alike: the read-only posture is what lets a security team approve passmcp. Resilience is already a phase of the check, and passmcp fuzzes its own parsers.</td></tr>
-      </tbody>
-    </table>
-  </div></div>
 </section>

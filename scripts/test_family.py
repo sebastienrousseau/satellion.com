@@ -108,17 +108,19 @@ class Render(unittest.TestCase):
         two = family.render(*family.load(SCHEMA_2), "0.0.2").replace("(schema 2)", "")
         self.assertEqual(one, two)
 
-    def test_rows_link_their_release_or_changelog_and_rejected_ones_give_the_reason(self):
+    def test_rows_link_their_release_or_changelog(self):
         out = family.render(*family.load(SCHEMA_2), "v0.0.2")
         self.assertIn(f'<a href="{REPO}/passmcp/releases/tag/v0.0.2" rel="noopener">Released in 0.0.2</a>', out)
         self.assertIn(f'<a href="{REPO}/passmcp-lsp/blob/main/CHANGELOG.md" rel="noopener">Not yet released</a>', out)
-        self.assertIn('<tr><th scope="row">passmcp-wasm</th><td>A browser build.</td><td>CORS.</td></tr>', out)
         self.assertIn("Three components, one version.", out)
         self.assertNotIn(f"{REPO}/passmcp-wasm", out)
 
-    def test_a_family_with_nothing_rejected_has_no_rejected_table(self):
-        rows = [r for r in json.loads(SCHEMA_2)["repositories"] if r["status"] != "rejected"]
-        self.assertNotIn("Considered and rejected", family.render(*family.load(manifest(2, rows)), "0.0.2"))
+    def test_rejected_components_are_not_on_the_page(self):
+        # The site lists what the family is; what it decided against is
+        # recorded in passmcp's docs/ecosystem.md, not published here.
+        out = family.render(*family.load(SCHEMA_2), "0.0.2")
+        self.assertNotIn("Considered and rejected", out)
+        self.assertNotIn("passmcp-wasm", out)
 
     def test_a_large_family_is_counted_in_digits(self):
         rows = [{"name": f"c{i}", "status": "released"} for i in range(13)]

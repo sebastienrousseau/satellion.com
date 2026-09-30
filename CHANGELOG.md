@@ -7,6 +7,14 @@ All notable changes to satellion.com are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions move by
 0.0.1 a release, as across the passmcp family.
 
+## [Unreleased]
+
+### Changed
+
+- **The family table lists only the family.** The "Considered and
+  rejected" section is gone from the company and product pages; what was
+  decided against stays recorded in passmcp's `docs/ecosystem.md`.
+
 ## [0.0.3] — 2026-09-30
 
 ### Added
