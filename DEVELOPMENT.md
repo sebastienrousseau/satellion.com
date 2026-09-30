@@ -48,6 +48,7 @@ CI job; the command reproduces it locally.
 | REUSE compliance | `reuse lint` | `docs-lint.yml` |
 | Relative links resolve | `lychee --offline --include-fragments --exclude-path content '**/*.md'` | `docs-lint.yml` |
 | Every PR commit has a DCO sign-off | (CI only) | `dco.yml` |
+| The release page is in the family layout | `python3 scripts/release_page.py vX.Y.Z` | `release.yml`, on a tag or by hand |
 | The PR targets `main` | (CI only) | `pr-base.yml` |
 | CodeQL and OpenSSF Scorecard | (CI only) | `codeql.yml`, `scorecard.yml` |
 
@@ -87,3 +88,28 @@ passmcp release the product page was built against says otherwise.
 
 Releases are signed annotated tags cut by the maintainer. The site itself
 deploys from `main`, so a merged change is live without a release.
+
+1. On the `feat/vX.Y.Z` branch, add the `## [X.Y.Z]` heading to
+   `CHANGELOG.md` and write `docs/releases/vX.Y.Z.md` with its
+   `## Highlights ⭐️`, the only hand-written part of the release page.
+   `make verify-versions` must pass. Merge to `main`.
+2. Optionally run the Release workflow by hand (`workflow_dispatch`): the
+   dry run verifies the newest CHANGELOG release and prints its page,
+   publishing nothing.
+3. Push a signed annotated tag `vX.Y.Z` with the message
+   `satellion.github.io vX.Y.Z`. `release.yml` checks the tag is on
+   `main` and every version reference agrees, then publishes the page.
+4. Read the tag and the release page back before calling it done.
+
+The release page is composed, never edited by hand.
+`scripts/release_page.py` titles it `satellion.github.io X.Y.Z` and
+writes the highlights, GitHub's generated `## What's Changed` (and
+`## New Contributors` when there are any), a `## Checksums` section that
+says no files are attached and that the site is deployed instead, and the
+`**Full Changelog**` link, then reads the page back and fails unless
+GitHub shows what it composed. Locally (`gh` needs a token with contents
+access for GitHub's generated notes):
+
+```sh
+python3 scripts/release_page.py vX.Y.Z
+```
