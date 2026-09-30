@@ -950,12 +950,11 @@ html { scroll-padding-block-start: 5.5rem; }
 .satellion-hero { padding-block: clamp(2.5rem, 6vw, 5rem); }
 .satellion-hero-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: clamp(1.5rem, 5vw, 4rem); align-items: center; }
 .satellion-hero h1 { font-size: clamp(2rem, 4.6vw, 3.4rem); letter-spacing: -0.03em; line-height: 1.05; max-width: 18ch; text-wrap: balance; }
-.satellion-mark { width: 100%; max-width: 22rem; height: auto; justify-self: center; }
 .satellion-products article, .satellion-trust article { display: flex; flex-direction: column; gap: 0.4rem; }
 .satellion-products article > a, .satellion-trust article > a { margin-top: auto; font-weight: 700; }
 @media (max-width: 760px) {
   .satellion-hero-grid { grid-template-columns: minmax(0, 1fr); }
-  .satellion-mark { max-width: 12rem; grid-row: 1; }
+  .satellion-mark { max-width: 9rem; }
 }
 
 /* The logo's navy disappears on a dark ground: dark mode shows a variant
@@ -973,3 +972,284 @@ html { scroll-padding-block-start: 5.5rem; }
 .section-dark .cards article { background: rgb(255 255 255 / 4%); border-color: rgb(255 255 255 / 18%); color: var(--scene-ink); }
 .section-dark .cards article p { color: var(--scene-muted); }
 .section-dark .cards article a { color: var(--scene-accent); }
+
+/* ── Bento grid and restrained glass ────────────────────────────────────
+ * Two rules decide every surface below.
+ *
+ * Content sits in bento cells: opaque rectangles with a solid background,
+ * a faint edge and a soft shadow, laid out on CSS Grid so the page reflows
+ * from a wide mosaic to one column without a breakpoint per section.
+ * Cells never blur and never let the page show through, so body copy is
+ * only ever measured against one known colour.
+ *
+ * Glass is spent once, on the sticky header (and the menu it discloses),
+ * which floats over a static mesh behind <main>. One blurred layer is what
+ * a low-end device can afford. The glass turns opaque when the reader asks
+ * for less transparency or more contrast, and when backdrop-filter is not
+ * supported at all.
+ */
+@layer theme.tokens {
+  :root, :root[data-theme="light"] {
+    --mesh-a: rgb(134 102 214 / 16%); --mesh-b: rgb(80 132 226 / 13%); --mesh-c: rgb(46 184 204 / 13%);
+    --card: #ffffff; --card-head: #f6f0e9; --card-edge: rgb(28 29 44 / 10%);
+    --card-shadow: 0 1px 2px rgb(28 29 44 / 6%), 0 6px 24px rgb(28 29 44 / 7%);
+    --divider: rgb(28 29 44 / 10%);
+    --feature: #1c1d2c; --feature-ink: #ffffff; --feature-soft: #d9d1cb; --feature-link: #f9a12c;
+    --scene-card: #2a2c40; --glass: rgb(250 247 243 / 74%);
+    --btn-a: #7b3d22; --btn-b: #c2410c; --btn-ink: #ffffff; --btn-edge: rgb(255 255 255 / 45%);
+  }
+  :root[data-theme="dark"] {
+    --mesh-a: rgb(112 64 206 / 26%); --mesh-b: rgb(44 92 214 / 22%); --mesh-c: rgb(22 170 200 / 16%);
+    --card: #1f2130; --card-head: #292b3d; --card-edge: rgb(255 255 255 / 10%);
+    --card-shadow: 0 4px 30px rgb(0 0 0 / 50%);
+    --divider: rgb(255 255 255 / 10%);
+    --feature: #f6f2ed; --feature-ink: #1c1d2c; --feature-soft: #33344a; --feature-link: #7b3d22;
+    --scene-card: #1a1b28; --glass: rgb(20 21 31 / 72%);
+    --btn-a: #fdb757; --btn-b: #f98a2c; --btn-ink: #1c1d2c; --btn-edge: rgb(255 255 255 / 60%);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --mesh-a: rgb(112 64 206 / 26%); --mesh-b: rgb(44 92 214 / 22%); --mesh-c: rgb(22 170 200 / 16%);
+      --card: #1f2130; --card-head: #292b3d; --card-edge: rgb(255 255 255 / 10%);
+      --card-shadow: 0 4px 30px rgb(0 0 0 / 50%);
+      --divider: rgb(255 255 255 / 10%);
+      --feature: #f6f2ed; --feature-ink: #1c1d2c; --feature-soft: #33344a; --feature-link: #7b3d22;
+      --scene-card: #1a1b28; --glass: rgb(20 21 31 / 72%);
+      --btn-a: #fdb757; --btn-b: #f98a2c; --btn-ink: #1c1d2c; --btn-edge: rgb(255 255 255 / 60%);
+    }
+  }
+  body.style-satellion {
+    --mesh-a: rgb(110 88 214 / 10%); --mesh-b: rgb(33 65 134 / 10%); --mesh-c: rgb(12 161 145 / 9%);
+    --card: #ffffff; --card-head: #eef2fa; --card-edge: rgb(17 26 51 / 10%);
+    --card-shadow: 0 1px 2px rgb(17 26 51 / 6%), 0 6px 24px rgb(17 26 51 / 7%);
+    --divider: rgb(17 26 51 / 10%);
+    --feature: #214186; --feature-ink: #ffffff; --feature-soft: #d7def0; --feature-link: #d6e97a;
+    --scene-card: #1a2a57; --glass: rgb(245 247 251 / 74%);
+    --btn-a: #214186; --btn-b: #0e7c86; --btn-ink: #ffffff; --btn-edge: rgb(255 255 255 / 45%);
+  }
+  :root[data-theme="dark"] body.style-satellion {
+    --mesh-a: rgb(104 72 210 / 24%); --mesh-b: rgb(46 92 196 / 24%); --mesh-c: rgb(31 192 173 / 14%);
+    --card: #131d3a; --card-head: #1c2849; --card-edge: rgb(255 255 255 / 10%);
+    --card-shadow: 0 4px 30px rgb(0 0 0 / 50%);
+    --divider: rgb(255 255 255 / 10%);
+    --feature: #c0d83e; --feature-ink: #0b1226; --feature-soft: #1a2647; --feature-link: #0b1226;
+    --scene-card: #101a36; --glass: rgb(11 18 38 / 72%);
+    --btn-a: #c0d83e; --btn-b: #1fc0ad; --btn-ink: #0b1226; --btn-edge: rgb(255 255 255 / 60%);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) body.style-satellion {
+      --mesh-a: rgb(104 72 210 / 24%); --mesh-b: rgb(46 92 196 / 24%); --mesh-c: rgb(31 192 173 / 14%);
+      --card: #131d3a; --card-head: #1c2849; --card-edge: rgb(255 255 255 / 10%);
+      --card-shadow: 0 4px 30px rgb(0 0 0 / 50%);
+      --divider: rgb(255 255 255 / 10%);
+      --feature: #c0d83e; --feature-ink: #0b1226; --feature-soft: #1a2647; --feature-link: #0b1226;
+      --scene-card: #101a36; --glass: rgb(11 18 38 / 72%);
+      --btn-a: #c0d83e; --btn-b: #1fc0ad; --btn-ink: #0b1226; --btn-edge: rgb(255 255 255 / 60%);
+    }
+  }
+}
+
+/* The mesh: three static radial glows on the page colour, fixed behind
+ * everything. Nothing animates it, so it costs one paint. */
+body { background: var(--bg); }
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(42rem 34rem at 8% 4%, var(--mesh-a), transparent 70%),
+    radial-gradient(38rem 30rem at 92% 22%, var(--mesh-b), transparent 70%),
+    radial-gradient(46rem 32rem at 55% 96%, var(--mesh-c), transparent 70%),
+    var(--bg);
+}
+.section-soft, .readout-section, .style-passmcp .site-header { background: transparent; border-block: 0; }
+
+/* The one glass layer. */
+.site-header, .style-passmcp .site-header {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  border-block-end: 1px solid var(--card-edge);
+}
+/* The disclosed menu is read, not glanced at: nearly opaque. */
+.site-header:has(.site-nav[data-open="true"]) { background: color-mix(in srgb, var(--bg) 94%, transparent); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header, .style-passmcp .site-header { background: var(--bg); }
+}
+
+/* Nav labels are words: they never break inside one. The header collapses
+ * to the menu before the row would wrap (breakpoints further down). */
+.site-nav a { white-space: nowrap; }
+
+/* Cells. */
+.bento-cell, .cards article, .evidence article, .table-scroll, .faq details, .metrics > div, .page-shell .prose, #install .prose {
+  background: var(--card);
+  border: 1px solid var(--card-edge);
+  border-radius: 1rem;
+  box-shadow: var(--card-shadow);
+}
+.cards article, .evidence article, .bento-cell, .metrics > div { padding: 1.5rem; }
+.page-shell .prose, #install .prose { padding: clamp(1.25rem, 3vw, 2.25rem); border-radius: 1.5rem; }
+.cards h3, .evidence h3 { color: var(--ink); }
+.evidence article { border-inline-start: 4px solid var(--accent); }
+
+/* Bento layouts: a mosaic on wide screens, two tracks on tablets, one
+ * column on phones. Spans are by position, so the copy decides nothing. */
+.cards { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1rem; }
+.cards.bento > * { display: flex; flex-direction: column; gap: 0.5rem; }
+.cards.bento > * > a { margin-block-start: auto; font-weight: 700; }
+.bento > :first-child { background: var(--feature); color: var(--feature-ink); border-color: transparent; border-radius: 1.5rem; }
+.bento > :first-child :is(h3, span) { color: var(--feature-ink); }
+.bento > :first-child p { color: var(--feature-soft); }
+.bento > :first-child a { color: var(--feature-link); }
+@media (min-width: 40rem) {
+  .cards.bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bento-3 > :first-child, .bento-6 > :first-child { grid-column: 1 / -1; }
+}
+@media (min-width: 64rem) {
+  .cards.bento-4 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .bento-4 > :first-child { grid-column: span 2; }
+  .bento-4 > :last-child { grid-column: span 2; }
+  .cards.bento-3 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .bento-3 > :first-child { grid-column: span 2; }
+  .cards.bento-6 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .bento-6 > :first-child { grid-column: span 2; }
+  .bento-6 > :last-child { grid-column: span 2; }
+  .bento > :first-child h3 { font-size: clamp(1.3rem, 2vw, 1.6rem); }
+}
+
+/* The readout: verdict, score and the three figures as one mosaic. */
+.readout-grid {
+  display: grid; gap: 1rem; justify-content: stretch; align-items: stretch;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "verdict" "score" "metrics" "note";
+}
+.readout-grid .instrument { grid-area: verdict; }
+.readout-grid .score { grid-area: score; justify-self: stretch; align-self: stretch; align-items: baseline; align-content: center; justify-content: center; flex-wrap: wrap; border-radius: 1.5rem; background: var(--feature); color: var(--feature-ink); border-color: transparent; }
+.readout-grid .score span { color: var(--feature-soft); }
+.readout-grid .score strong { font-size: clamp(3rem, 7vw, 4.5rem); }
+.readout-grid .metrics { grid-area: metrics; max-width: none; margin: 0; gap: 1rem; grid-template-columns: minmax(0, 1fr); }
+.metrics > div { border-radius: 0.75rem; }
+.readout-grid .proof-note { grid-area: note; }
+@media (min-width: 36rem) { .readout-grid .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 64rem) {
+  .readout-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); grid-template-areas: "verdict score" "metrics metrics" "note note"; }
+}
+
+/* Heroes: copy on its own solid cell beside the picture, never over it. */
+.satellion-hero-grid, .passmcp-hero-grid { gap: 1rem; align-items: stretch; }
+.hero-copy, .passmcp-copy.bento-cell { padding: clamp(1.5rem, 4vw, 3rem); border-radius: 1.5rem; }
+.hero-mark { display: grid; place-items: center; padding: clamp(1.5rem, 4vw, 3rem); border-radius: 1.5rem; }
+.passmcp-photo { margin-block-start: 0; align-self: center; }
+.passmcp-photo img, .passmcp-photo::after { border-radius: 1.5rem; }
+.passmcp-photo img { box-shadow: 0 2rem 5rem -1.5rem rgb(219 57 34 / 45%), 0 0.5rem 2rem rgb(46 184 204 / 18%); }
+
+/* The dark band becomes one large cell, cells inside it stay solid. */
+.section-dark { width: min(100% - 1.5rem, 92rem); margin-inline: auto; border-radius: 1.5rem; border: 1px solid var(--card-edge); }
+.section-dark .cards article, .section-dark .phases li { background: var(--scene-card); border-color: rgb(255 255 255 / 12%); box-shadow: none; }
+.section-dark .cards article h3 { color: var(--scene-ink); }
+.section-dark .cards.bento > :first-child { background: var(--scene-accent); border-color: transparent; }
+.section-dark .cards.bento > :first-child :is(h3, p, a) { color: #0b1226; }
+.phases li { border-radius: 0.75rem; }
+
+/* Tables: a real table inside an opaque card, faint dividers, a header
+ * row one step lighter than the body. */
+.table-scroll { overflow-x: auto; }
+.table-scroll th, .table-scroll td { border-block-end: 1px solid var(--divider); }
+.table-scroll thead th { background: var(--card-head); }
+.faq details { border-radius: 0.75rem; box-shadow: none; }
+
+/* Buttons: an opaque gradient, a crisp light edge. Both stops of every
+ * gradient hold the label at 4.5:1 or more; the lowest is the company
+ * page's light teal stop, #0e7c86 under white, at 4.95:1. */
+.button.primary, .site-nav .nav-cta, .style-passmcp .site-nav .nav-cta {
+  background: linear-gradient(135deg, var(--btn-a), var(--btn-b));
+  color: var(--btn-ink);
+  border: 1px solid var(--btn-edge);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 22%), 0 0.5rem 1.5rem -0.75rem var(--btn-b);
+}
+.button.primary:hover, .site-nav .nav-cta:hover, .style-passmcp .site-nav .nav-cta:hover {
+  background: linear-gradient(135deg, var(--btn-a), var(--btn-b));
+  color: var(--btn-ink);
+  border-color: var(--btn-ink);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), 0 0 0 3px color-mix(in srgb, var(--btn-b) 40%, transparent), 0 0.75rem 1.75rem -0.75rem var(--btn-b);
+}
+.button.secondary { background: var(--card); border: 1px solid var(--line); color: var(--ink); }
+.button.secondary:hover { border-color: var(--ink); color: var(--ink); }
+.button { border-radius: 0.75rem; }
+.button:focus-visible, .site-nav a:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) {
+  .button, .site-nav .nav-cta { transition: box-shadow 0.15s ease, border-color 0.15s ease; }
+}
+
+/* Asked for: the glass and the mesh go opaque and flat, edges harden. */
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  body::before { background: var(--bg); }
+  .site-header, .style-passmcp .site-header, .site-header:has(.site-nav[data-open="true"]) {
+    background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+}
+@media (prefers-contrast: more) {
+  :root, body.style-satellion { --card-edge: var(--line); --divider: var(--line); --ink-muted: var(--ink-soft); }
+  .site-header { border-block-end: 2px solid var(--ink); }
+  .button.primary, .site-nav .nav-cta { border: 2px solid var(--ink); }
+}
+@media (forced-colors: active) {
+  body::before { display: none; }
+  .site-header { background: Canvas; backdrop-filter: none; }
+  .bento-cell, .cards article, .metrics > div, .table-scroll { border-color: CanvasText; }
+}
+@media print {
+  body::before { display: none; }
+  .section-dark { width: auto; border-radius: 0; }
+}
+
+/* Satellion's mark beside its name and in the hero is decoration, so it is
+ * drawn by CSS rather than as an <img>: nothing for assistive technology to
+ * skip, and only the current theme's file is fetched. */
+.satellion-mark, .footer-mark { display: block; background: url("brand/satellion/mark.svg") center / contain no-repeat; }
+.satellion-mark { width: 100%; max-width: 22rem; aspect-ratio: 1; }
+.footer-mark { width: 2rem; height: 2rem; flex: none; }
+:root[data-theme="dark"] :is(.satellion-mark, .footer-mark) { background-image: url("brand/satellion/mark-dark.svg"); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) :is(.satellion-mark, .footer-mark) { background-image: url("brand/satellion/mark-dark.svg"); }
+}
+/* Nine phases read as three rows of three, never a row of one. */
+@media (min-width: 48rem) { .phases ol { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.compare-table td:nth-of-type(1) { min-width: 9.5rem; }
+
+/* passmcp's navigation carries eleven controls, so its row runs out of
+ * room well above the shared 64rem collapse: at 75rem the labels broke
+ * mid-word ("passm / cp", "Inst / all"). The vendor grid caps .container
+ * at 60rem up to an 80rem viewport, narrower than the row, so the product
+ * header collapses to the menu up to 80rem, and tightens its items to
+ * 96rem, where the cap is 72rem. */
+@media (min-width: 80.001rem) and (max-width: 96rem) {
+  .style-passmcp .site-nav a { padding-inline: 0.55rem; }
+  .style-passmcp .site-nav .nav-cta { margin-inline-start: 0.25rem; padding-inline: 0.9rem; }
+}
+@media (max-width: 80rem) {
+  .style-passmcp .header-inner { flex-wrap: wrap; padding-block: 0.6rem; }
+  .style-passmcp .brand { margin-inline-end: auto; }
+  .style-passmcp .nav-toggle { display: inline-flex; }
+  .style-passmcp .site-nav { order: 4; display: none; width: 100%; flex-direction: column; align-items: stretch; padding-block: 0.5rem; }
+  .style-passmcp .site-nav[data-open="true"] { display: flex; }
+  .style-passmcp .site-nav a { justify-content: flex-start; padding-inline: 0.75rem; }
+  .style-passmcp .site-nav .nav-cta { margin-inline-start: 0; justify-content: center; }
+  .no-js .style-passmcp .nav-toggle { display: none; }
+  .no-js .style-passmcp .site-nav { display: flex; }
+}
+
+/* Phones: a 16px gutter (the rule for 28rem and under left 10px),
+ * the hero mark as an accent rather than a second screen, and the three
+ * figures as compact rows instead of three tall tiles. */
+@media (max-width: 47.99rem) {
+  .container { width: calc(100% - 2rem); }
+  .satellion-mark { max-width: 7rem; }
+  .hero-mark { padding: 1rem; }
+}
+@media (max-width: 35.99rem) {
+  .metrics > div { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 1rem 1.25rem; }
+  .metrics dd { margin: 0; font-size: 1.5rem; }
+}
+/* Commands in prose wrap rather than scroll: a scrolling <pre> is a region
+ * a keyboard cannot reach, and a wrapped command still copies whole. */
+.prose pre, .prose pre code { white-space: pre-wrap; overflow-wrap: anywhere; }

@@ -11,9 +11,40 @@ All notable changes to satellion.com are documented here. The format follows
 
 ### Changed
 
+- **The pages are laid out as a bento grid.** The home page, passmcp's
+  page and the module pages set their content in opaque cells on CSS
+  Grid: the sample report's verdict, score and figures as one mosaic, the
+  capabilities, trust notes and phases as cells, and each table inside its
+  own card. The layout goes from a mosaic at desktop widths to two tracks
+  and then one column on phones. The words, numbers and links are
+  unchanged.
+- **The header is frosted glass, and opaque when asked.** The sticky
+  header is the only blurred layer, over a static colour mesh behind the
+  page. With `prefers-reduced-transparency: reduce`,
+  `prefers-contrast: more`, forced colours, or no `backdrop-filter`
+  support, both become solid. Buttons are an opaque gradient whose label
+  holds 4.5:1 or more on every stop, in both themes.
 - **The family table lists only the family.** The "Considered and
   rejected" section is gone from the company and product pages; what was
   decided against stays recorded in passmcp's `docs/ecosystem.md`.
+
+### Fixed
+
+- **passmcp's navigation no longer breaks inside a word.** From 1024 to
+  1280px its labels wrapped mid-word ("passm / cp"); the product header
+  now collapses to the menu below 1280px, checked at every width from 320
+  to 1600px.
+- **The trust headings on the home page are readable in the light
+  theme.** They were dark ink on the dark band, 1.15:1.
+- **Every page passes SSG's quality gate and accessibility report.** The
+  company header's brand link says it is the home link (`rel="home"`),
+  and Satellion's decorative mark is drawn by CSS rather than as an image
+  with empty alt text, which also stops both theme variants downloading.
+- **Each table is one scroll region.** SSG nested a second region labelled
+  "Table, scrollable horizontally" inside each table's own; the corner
+  cell of the comparison table is no longer an empty header; the sample
+  score is exposed as one labelled image; and commands in prose wrap
+  instead of scrolling where a keyboard cannot reach them.
 
 ## [0.0.3] — 2026-09-30
 
