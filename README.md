@@ -21,6 +21,10 @@
   <a href="https://github.com/sebastienrousseau/satellion.github.io/blob/main/DEVELOPMENT.md#requirements"><img src="https://img.shields.io/badge/ssg-0.0.63-93450a.svg?style=for-the-badge&logo=rust" alt="SSG 0.0.63" /></a>
 </p>
 
+<p align="center">
+  <img src=".github/demo.gif" alt="The core build of satellion.com served locally and captured by headless Chrome: the Satellion company page, then the passmcp product page" width="100%" />
+</p>
+
 ---
 
 ## Contents
