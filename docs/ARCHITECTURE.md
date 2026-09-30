@@ -46,7 +46,10 @@ Makefile      Every build and gate target
    `/.well-known/`.
 5. `scripts/modules.py` fails when a Go module page is missing or carries
    the wrong `go-import` tag (ADR 0004).
-6. `CNAME` is written for GitHub Pages.
+6. `scripts/quality_gate.py` fails the build unless SSG's
+   `quality-gate-report.json` passes every pillar and its
+   `accessibility-report.json` lists no issue.
+7. `CNAME` is written for GitHub Pages.
 
 `make site` (ADR 0001) adds, before `core`: a passmcp checkout at a release
 tag, its sample report, `scripts/site_data.py` writing the product page's

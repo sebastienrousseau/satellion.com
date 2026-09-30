@@ -8,7 +8,7 @@ SPDX-PackageDownloadLocation = "https://github.com/sebastienrousseau/satellion.g
 
 # Images and formats that take no comment.
 [[annotations]]
-path = ["images/**", ".gitignore"]
+path = ["images/**", ".gitignore", ".github/demo.gif"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>"
 SPDX-License-Identifier = "GPL-3.0-only"

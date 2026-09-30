@@ -21,6 +21,10 @@
   <a href="https://github.com/sebastienrousseau/satellion.github.io/blob/main/DEVELOPMENT.md#requirements"><img src="https://img.shields.io/badge/ssg-0.0.63-93450a.svg?style=for-the-badge&logo=rust" alt="SSG 0.0.63" /></a>
 </p>
 
+<p align="center">
+  <img src=".github/demo.gif" alt="The core build of satellion.com served locally and captured by headless Chrome: the Satellion company page, then the passmcp product page" width="100%" />
+</p>
+
 ---
 
 ## Contents
@@ -89,7 +93,7 @@ make serve    # then open http://localhost:8000
 
 ## The satellion.com ecosystem
 
-Every component is released at **0.0.3** and moves in lockstep: one version across the family, released together ([docs/ecosystem.md](https://github.com/sebastienrousseau/passmcp/blob/main/docs/ecosystem.md)).
+Every component is released at **0.0.4** and moves in lockstep: one version across the family, released together ([docs/ecosystem.md](https://github.com/sebastienrousseau/passmcp/blob/main/docs/ecosystem.md)).
 
 | Component | Purpose | Use case |
 | :--- | :--- | :--- |
@@ -119,7 +123,7 @@ Every component is released at **0.0.3** and moves in lockstep: one version acro
 | Sample | passmcp's real report against its fixture server, at `/passmcp/sample/` | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
 | security.txt | RFC 9116 at `/.well-known/security.txt`, failing the build 30 days before it expires | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
 | Social cards | Rendered from `cards/` by `scripts/cards.py` | [Released in 0.0.1](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.1) |
-| Family listing | All nine components with their release status, and the rejected ones with the reason, on the company and product pages, rendered from passmcp's `ecosystem.json` | [Released in 0.0.3](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.3) |
+| Family listing | All nine components with their release status, on the company and product pages, rendered from passmcp's `ecosystem.json` | [Released in 0.0.3](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.3) |
 | Coverage badge | `/coverage.json`, the scripts' coverage measured on every deploy | [Released in 0.0.3](https://github.com/sebastienrousseau/satellion.github.io/releases/tag/v0.0.3) |
 
 ---
@@ -167,7 +171,7 @@ Not applicable: the site is static. passmcp's benchmarks are in its
 ## Examples
 
 ```sh
-make site PASSMCP_REF=v0.0.3   # build against a specific release
+make site PASSMCP_REF=v0.0.4   # build against a specific release
 make data                      # rewrite the page's numbers from the sample report
 make check-data                # fail if they differ, as CI does on pull requests
 ```

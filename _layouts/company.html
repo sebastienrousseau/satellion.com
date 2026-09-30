@@ -2,19 +2,19 @@
 {{#block "main"}}
 <section class="section satellion-hero" aria-labelledby="hero-heading">
   <div class="container satellion-hero-grid">
-    <div>
+    <div class="bento-cell hero-copy">
       <p class="eyebrow">{{eyebrow}}</p>
       <h1 id="hero-heading">{{headline}}</h1>
       <p class="lead">{{lead}}</p>
       <div class="actions"><a class="button primary" href="{{site_path}}passmcp/">{{cta_primary}}</a><a class="button secondary" href="https://github.com/sebastienrousseau/passmcp" rel="noopener">{{cta_secondary}}</a></div>
     </div>
-    <img class="satellion-mark logo-for-light" src="{{site_path}}brand/satellion/mark.svg" alt="" width="360" height="360" /><img class="satellion-mark logo-for-dark" src="{{site_path}}brand/satellion/mark-dark.svg" alt="" width="360" height="360" />
+    <div class="bento-cell hero-mark"><span class="satellion-mark"></span></div>
   </div>
 </section>
 
 <section class="section section-soft" id="build" aria-labelledby="build-heading">
   <div class="container split-heading"><div><p class="eyebrow">{{build_kicker}}</p><h2 id="build-heading">{{build_heading}}</h2></div><p class="lead">{{build_lead}}</p></div>
-  <div class="container cards satellion-products">
+  <div class="container cards bento bento-4 satellion-products">
     <article><h3>{{product_one_title}}</h3><p>{{product_one_text}}</p><a href="{{site_path}}{{product_one_link}}">{{product_one_cta}}</a></article>
     <article><h3>{{product_two_title}}</h3><p>{{product_two_text}}</p><a href="{{site_path}}{{product_two_link}}">{{product_two_cta}}</a></article>
     <article><h3>{{product_three_title}}</h3><p>{{product_three_text}}</p><a href="{{site_path}}{{product_three_link}}">{{product_three_cta}}</a></article>
@@ -26,7 +26,7 @@
 
 <section class="section" id="principles" aria-labelledby="principles-heading">
   <div class="container split-heading"><div><p class="eyebrow">{{principles_kicker}}</p><h2 id="principles-heading">{{principles_heading}}</h2></div></div>
-  <div class="container cards">
+  <div class="container cards bento bento-4">
     <article><h3>{{principle_one_title}}</h3><p>{{principle_one_text}}</p></article>
     <article><h3>{{principle_two_title}}</h3><p>{{principle_two_text}}</p></article>
     <article><h3>{{principle_three_title}}</h3><p>{{principle_three_text}}</p></article>
@@ -36,7 +36,7 @@
 
 <section class="section section-dark" id="trust" aria-labelledby="trust-heading">
   <div class="container split-heading"><div><p class="eyebrow">{{trust_kicker}}</p><h2 id="trust-heading">{{trust_heading}}</h2></div></div>
-  <div class="container cards satellion-trust">
+  <div class="container cards bento bento-3 satellion-trust">
     <article><h3>{{trust_one_title}}</h3><p>{{trust_one_text}}</p><a href="{{trust_one_link}}" rel="noopener">Read the policy</a></article>
     <article><h3>{{trust_two_title}}</h3><p>{{trust_two_text}}</p><a href="{{trust_two_link}}" rel="noopener">See the advisories</a></article>
     <article><h3>{{trust_three_title}}</h3><p>{{trust_three_text}}</p><a href="{{site_path}}{{trust_three_link}}">See the evidence</a></article>

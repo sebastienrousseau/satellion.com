@@ -7,10 +7,10 @@
 # release: the sample report is passmcp run against its fixture server, the
 # manual is passmcp's docs/, and the page's numbers come from that report.
 
-.PHONY: all core site passmcp sample data check-data family check-family manual test coverage coverage-publish verify-versions readme-check lint complexity check serve clean help name-guard
+.PHONY: all core site passmcp sample data check-data family check-family manual test coverage coverage-publish verify-versions readme-check lint complexity check serve clean help name-guard demo
 
 PASSMCP_REPO ?= https://github.com/sebastienrousseau/passmcp
-# The latest release tag unless one is named: make site PASSMCP_REF=v0.0.3
+# The latest release tag unless one is named: make site PASSMCP_REF=v0.0.4
 PASSMCP_REF  ?= $(shell git ls-remote --tags --refs --sort=-v:refname $(PASSMCP_REPO) 'v*' | head -n1 | sed 's|.*refs/tags/||')
 SSG_VERSION ?= 0.0.63
 WORK := .build
@@ -133,6 +133,9 @@ core:
 	python3 scripts/security_txt.py $(DIST)/security.txt
 	mkdir -p $(DIST)/.well-known && cp $(DIST)/security.txt $(DIST)/.well-known/security.txt
 	python3 scripts/modules.py $(DIST)
+	# SSG audits every build (ten quality pillars, WCAG 2.2 per page) but
+	# only logs what it finds; the build fails on any finding instead.
+	python3 scripts/quality_gate.py $(DIST)
 	echo satellion.com > $(DIST)/CNAME
 	@echo "core: built $(DIST)"
 
@@ -144,6 +147,31 @@ site: data family manual core
 	# Last, because it indexes the finished tree.
 	cd $(WORK)/passmcp && go run ./scripts/sitemap/main.go $(CURDIR)/$(DIST)
 	@echo "site: built $(DIST) against passmcp $(PASSMCP_REF)"
+
+# The README demo (.github/demo.gif): the company page and passmcp's page
+# of the core build, served on loopback and captured by headless Chrome at
+# 1440x900, four seconds each. A web page has no terminal session to
+# record, so this recipe stands in for a VHS tape (AGENTS.md section 7.1.1).
+# Needs Chrome, ffmpeg and timeout (coreutils): a headless Chrome that does
+# not exit after writing its screenshot is stopped after 60 seconds, and the
+# screenshot is what is checked.
+CHROME ?= /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+DEMO_PORT ?= 17840
+DEMO_PAGES := / /passmcp/
+demo: core
+	rm -rf $(WORK)/demo && mkdir -p $(WORK)/demo/profile
+	python3 -m http.server $(DEMO_PORT) --bind 127.0.0.1 --directory $(DIST) >/dev/null 2>&1 & srv=$$!; \
+	  trap 'kill $$srv' EXIT; sleep 1; n=0; \
+	  for page in $(DEMO_PAGES); do n=$$((n + 1)); \
+	    timeout 60 "$(CHROME)" --headless=new --user-data-dir="$(CURDIR)/$(WORK)/demo/profile" --no-first-run \
+	      --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=1440,900 \
+	      --screenshot="$(CURDIR)/$(WORK)/demo/$$n.png" "http://127.0.0.1:$(DEMO_PORT)$$page" >/dev/null 2>&1 || true; \
+	    test -s "$(WORK)/demo/$$n.png" || { echo "demo: no screenshot of $$page" >&2; exit 1; }; \
+	  done
+	ffmpeg -loglevel error -y -framerate 1/4 -i "$(WORK)/demo/%d.png" \
+	  -vf "scale=1200:-1:flags=lanczos,split[a][b];[a]palettegen=stats_mode=full[p];[b][p]paletteuse=dither=sierra2_4a" \
+	  -loop 0 .github/demo.gif
+	@echo "demo: wrote .github/demo.gif"
 
 serve: site
 	cd $(DIST) && python3 -m http.server 8000

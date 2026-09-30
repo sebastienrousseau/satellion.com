@@ -51,7 +51,6 @@ def row(entry):
         "url": f"{REPO}/{repository}",
         "status": status,
         "role": entry.get("role", ""),
-        "reason": entry.get("rejected_because", ""),
     }
 
 
@@ -76,14 +75,12 @@ def component_row(r, version):
     return f'        <tr><th scope="row">{link}</th><td>{role}</td><td>{status_cell(r, version)}</td></tr>'
 
 
-def rejected_row(r):
-    name, role, reason = (html.escape(r[k]) for k in ("name", "role", "reason"))
-    return f'        <tr><th scope="row">{name}</th><td>{role}</td><td>{reason}</td></tr>'
-
-
 def table(label, caption, head, rows):
+    # ssg-table-scroll is SSG's own wrapper class: a page that carries it is
+    # left alone, so SSG does not nest a second region labelled "Table,
+    # scrollable horizontally" inside this one.
     return "\n".join([
-        f'  <div class="container"><div class="table-scroll" role="region" aria-label="{label}, scrollable horizontally" tabindex="0">',
+        f'  <div class="container"><div class="table-scroll ssg-table-scroll" role="region" aria-label="{label}, scrollable horizontally" tabindex="0">',
         "    <table>",
         f'      <caption class="visually-hidden">{caption}</caption>',
         f'      <thead><tr><th scope="col">Component</th><th scope="col">Purpose</th><th scope="col">{head}</th></tr></thead>',
@@ -107,13 +104,8 @@ def render(schema, rows, version):
         table("The passmcp family", "The components of the passmcp family, what each is for, and its release status",
               "Status", [component_row(r, version) for r in built]),
     ]
-    rejected = [rejected_row(r) for r in rows if r["status"] == "rejected"]
-    if rejected:
-        parts += [
-            '  <div class="container"><h3 id="ecosystem-rejected">Considered and rejected</h3><p>Components proposed for the family and decided against, with the reason.</p></div>',
-            table("Rejected components", "Components considered for the passmcp family and rejected, with the reason",
-                  "Why not", rejected),
-        ]
+    # Rejected components are recorded in passmcp's docs/ecosystem.md; the
+    # site lists only what the family is.
     return "\n".join(parts + ["</section>", ""])
 
 

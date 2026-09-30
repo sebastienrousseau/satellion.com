@@ -4,7 +4,7 @@
 name: "passmcp"
 short_name: "passmcp"
 title: "passmcp — prove an MCP server is safe for your agents"
-description: "passmcp tests a live MCP server the way an agent would: 131 checks in nine phases, every finding tied to the request that showed it, and a signed attestation you can verify offline. Open source, runs where your credentials already are."
+description: "passmcp tests a live MCP server the way an agent would: 138 checks in nine phases, every finding tied to the request that showed it, and a signed attestation you can verify offline. Open source, runs where your credentials already are."
 keywords: "MCP server testing, MCP security, Model Context Protocol conformance, MCP attestation, MCP scanner, agent security, MCP Inspector alternative, MCP CI gate"
 author: "Sebastien Rousseau"
 date: "2026-09-26"
@@ -24,14 +24,14 @@ footer_note: "A verdict is worth what its evidence is worth."
 
 eyebrow: "Open source · runs on your machine or in CI · no telemetry"
 headline: "Prove an MCP server is safe for your agents, with evidence anyone can check."
-lead: "passmcp connects to a live MCP server the way an agent would, runs 131 checks in nine phases, and ties every finding to the request that showed it. It writes a signed attestation that a gateway, a registry or an auditor can verify offline. Nothing is uploaded and nothing is guessed."
+lead: "passmcp connects to a live MCP server the way an agent would, runs 138 checks in nine phases, and ties every finding to the request that showed it. It writes a signed attestation that a gateway, a registry or an auditor can verify offline. Nothing is uploaded and nothing is guessed."
 cta_primary: "Install"
 cta_secondary: "See a real report"
 cta_tertiary: "Verify an attestation"
 
 readout_kicker: "passmcp's sample report"
 metric_one_label: "Checks in passmcp"
-metric_one_value: "131"
+metric_one_value: "138"
 metric_two_label: "Protocol generations"
 metric_two_value: "Both"
 metric_three_label: "Bytes sent to us"
@@ -114,7 +114,7 @@ faq_eyebrow: "Questions"
 faq_title: "The things people ask before installing."
 faq_lead: "Short answers. Longer ones are in the manual."
 faq_one_q: "How is this different from the official MCP Inspector?"
-faq_one_a: "The Inspector is an excellent place to explore a server by hand: click a tool, read a response, debug an OAuth flow. passmcp is the non-interactive counterpart. It runs 131 checks, scores the result, cites its evidence, signs an attestation and returns an exit code. Most teams use both."
+faq_one_a: "The Inspector is an excellent place to explore a server by hand: click a tool, read a response, debug an OAuth flow. passmcp is the non-interactive counterpart. It runs 138 checks, scores the result, cites its evidence, signs an attestation and returns an exit code. Most teams use both."
 faq_two_q: "How is it different from static MCP scanners?"
 faq_two_a: "Scanners such as Cisco's mcp-scanner read tool metadata and source code. passmcp talks to the running server over its real transport, so it sees what the server does: whether it rejects a bad token, validates arguments, honours Origin, recovers a session. passmcp also reads the catalogue for hidden instructions and poisoning, so the two overlap on text but not on behaviour."
 faq_three_q: "Does it support the stateless 2026-07-28 revision?"
@@ -135,7 +135,7 @@ readout_target: "acme-crm 2.4.0, passmcp's deliberately flawed fixture server"
 readout_verdict: "5 failing checks to fix before agents rely on it"
 readout_score: "69.25"
 readout_grade: "C"
-readout_note: "66 checks · 34 pass · 5 warn · 5 fail · 10 skipped · 12 info"
+readout_note: "71 checks · 38 pass · 6 warn · 5 fail · 10 skipped · 12 info"
 ledger_1_area: "Connectivity"
 ledger_1_weight: "10"
 ledger_1_score: "100"
@@ -183,7 +183,7 @@ evidence_2_req: "req#12"
 evidence_2_id: "protocol.unknown_tool"
 evidence_2_title: "Unknown tool is reported"
 evidence_2_detail: "calling a non-existent tool returned success"
-readout_version: "0.0.3"
+readout_version: "0.0.4"
 ---
 
 ## Install
@@ -193,7 +193,7 @@ brew install sebastienrousseau/tap/passmcp     # macOS and Linux
 yay -S passmcp                                 # Arch Linux, or: paru -S passmcp
 mise use -g github:sebastienrousseau/passmcp   # with mise
 nix run github:sebastienrousseau/passmcp -- --help
-go install satellion.com/passmcp/cmd/passmcp@v0.0.3
+go install satellion.com/passmcp/cmd/passmcp@v0.0.4
 ```
 
 Then point it at a server:
