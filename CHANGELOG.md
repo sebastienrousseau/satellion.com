@@ -7,7 +7,7 @@ All notable changes to satellion.com are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions move by
 0.0.1 a release, as across the passmcp family.
 
-## [Unreleased]
+## [0.0.4] — 2026-09-30
 
 ### Added
 
@@ -17,8 +17,12 @@ All notable changes to satellion.com are documented here. The format follows
 
 ### Changed
 
-- **The copyright line links to sebastienrousseau.com.** "© 2026
-  Sebastien Rousseau" in both footers now points to the author's site.
+- **Built against passmcp 0.0.4.** The numbers, the sample report and
+  the family table come from the 0.0.4 release: 138 checks in nine
+  phases, and every member of the family at 0.0.4.
+- **The author's name links to sebastienrousseau.com.** Both footers
+  read "© 2026 Sebastien Rousseau", with the name linking to the
+  author's site; the company footer no longer carries the licence note.
 - **The pages are laid out as a bento grid.** The home page, passmcp's
   page and the module pages set their content in opaque cells on CSS
   Grid: the sample report's verdict, score and figures as one mosaic, the
