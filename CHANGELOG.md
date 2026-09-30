@@ -17,6 +17,8 @@ All notable changes to satellion.com are documented here. The format follows
 
 ### Changed
 
+- **The copyright line links to sebastienrousseau.com.** "© 2026
+  Sebastien Rousseau" in both footers now points to the author's site.
 - **The pages are laid out as a bento grid.** The home page, passmcp's
   page and the module pages set their content in opaque cells on CSS
   Grid: the sample report's verdict, score and figures as one mosaic, the
