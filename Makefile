@@ -10,7 +10,7 @@
 .PHONY: all core site passmcp sample data check-data family check-family manual test coverage coverage-publish verify-versions readme-check lint complexity check serve clean help name-guard
 
 PASSMCP_REPO ?= https://github.com/sebastienrousseau/passmcp
-# The latest release tag unless one is named: make site PASSMCP_REF=v0.0.2
+# The latest release tag unless one is named: make site PASSMCP_REF=v0.0.3
 PASSMCP_REF  ?= $(shell git ls-remote --tags --refs --sort=-v:refname $(PASSMCP_REPO) 'v*' | head -n1 | sed 's|.*refs/tags/||')
 SSG_VERSION ?= 0.0.63
 WORK := .build

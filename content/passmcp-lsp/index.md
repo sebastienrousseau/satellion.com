@@ -23,8 +23,9 @@ headline: "satellion.com/passmcp-lsp"
 lead: "A language server for MCP artefacts, with check-id hover from passmcp's guidance catalogue, to catch mistakes in server.json, tool schemas and client configuration while editing."
 ---
 
-The module path resolves to its repository. It has no release yet, so there is no version to install; the first release is 0.0.2, in lockstep with the rest of the passmcp family.
+```sh
+go install satellion.com/passmcp-lsp/cmd/passmcp-lsp@v0.0.3
+```
 
 - Source: [github.com/sebastienrousseau/passmcp-lsp](https://github.com/sebastienrousseau/passmcp-lsp)
 - API documentation: [pkg.go.dev/satellion.com/passmcp-lsp](https://pkg.go.dev/satellion.com/passmcp-lsp)
-- Status: not yet released; see the [changelog](https://github.com/sebastienrousseau/passmcp-lsp/blob/main/CHANGELOG.md).
