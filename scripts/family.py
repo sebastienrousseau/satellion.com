@@ -76,8 +76,11 @@ def component_row(r, version):
 
 
 def table(label, caption, head, rows):
+    # ssg-table-scroll is SSG's own wrapper class: a page that carries it is
+    # left alone, so SSG does not nest a second region labelled "Table,
+    # scrollable horizontally" inside this one.
     return "\n".join([
-        f'  <div class="container"><div class="table-scroll" role="region" aria-label="{label}, scrollable horizontally" tabindex="0">',
+        f'  <div class="container"><div class="table-scroll ssg-table-scroll" role="region" aria-label="{label}, scrollable horizontally" tabindex="0">',
         "    <table>",
         f'      <caption class="visually-hidden">{caption}</caption>',
         f'      <thead><tr><th scope="col">Component</th><th scope="col">Purpose</th><th scope="col">{head}</th></tr></thead>',

@@ -122,6 +122,15 @@ class Render(unittest.TestCase):
         self.assertNotIn("Considered and rejected", out)
         self.assertNotIn("passmcp-wasm", out)
 
+    def test_the_table_is_its_own_single_scroll_region(self):
+        # The region carries SSG's wrapper class, so SSG does not nest a
+        # second, identically labelled region inside it: one tab stop, one
+        # announced landmark.
+        out = family.render(*family.load(SCHEMA_2), "0.0.2")
+        self.assertIn('<div class="table-scroll ssg-table-scroll" role="region" '
+                      'aria-label="The passmcp family, scrollable horizontally" tabindex="0">', out)
+        self.assertEqual(out.count('role="region"'), 1)
+
     def test_a_large_family_is_counted_in_digits(self):
         rows = [{"name": f"c{i}", "status": "released"} for i in range(13)]
         self.assertIn("13 components", family.render(*family.load(manifest(2, rows)), "0.0.2"))
