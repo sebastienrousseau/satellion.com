@@ -9,6 +9,12 @@ All notable changes to satellion.com are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- **The build fails on SSG's own audit findings.** `make core` runs
+  `scripts/quality_gate.py`, which fails unless SSG's quality gate passes
+  all ten pillars and its accessibility report lists no issue.
+
 ### Changed
 
 - **The pages are laid out as a bento grid.** The home page, passmcp's

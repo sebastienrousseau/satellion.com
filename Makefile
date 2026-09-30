@@ -133,6 +133,9 @@ core:
 	python3 scripts/security_txt.py $(DIST)/security.txt
 	mkdir -p $(DIST)/.well-known && cp $(DIST)/security.txt $(DIST)/.well-known/security.txt
 	python3 scripts/modules.py $(DIST)
+	# SSG audits every build (ten quality pillars, WCAG 2.2 per page) but
+	# only logs what it finds; the build fails on any finding instead.
+	python3 scripts/quality_gate.py $(DIST)
 	echo satellion.com > $(DIST)/CNAME
 	@echo "core: built $(DIST)"
 
