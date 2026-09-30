@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+name: Site problem
+description: A wrong claim, a broken page or link, or a Go module path that does not resolve
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If this is a security issue, such as injected content or a
+        compromised build, **stop** and report it privately through
+        [GitHub security advisories](https://github.com/sebastienrousseau/satellion.github.io/security/advisories/new)
+        instead. See [SECURITY.md](https://github.com/sebastienrousseau/satellion.github.io/blob/main/SECURITY.md).
+
+  - type: input
+    id: url
+    attributes:
+      label: Page
+      description: The full URL, for example https://satellion.com/passmcp/ or https://satellion.com/passmcp-graph?go-get=1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of problem
+      options:
+        - A claim is wrong, stale or unsourced
+        - A page or link is broken
+        - A Go module path does not resolve
+        - A format URI does not resolve
+        - Layout, accessibility or theme
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What is wrong
+      description: Quote the text or paste the error, such as the output of go install. For a wrong claim, link the evidence.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What it should say or do
+    validations:
+      required: true

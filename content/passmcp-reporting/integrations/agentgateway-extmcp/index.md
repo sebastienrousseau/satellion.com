@@ -25,7 +25,7 @@ lead: "The agentgateway processor that gates MCP backends on passmcp attestation
 ---
 
 ```sh
-go install satellion.com/passmcp-reporting/integrations/agentgateway-extmcp/cmd/agentgateway-extmcp@v0.0.1
+go install satellion.com/passmcp-reporting/integrations/agentgateway-extmcp/cmd/agentgateway-extmcp@v0.0.3
 ```
 
 - Module: [satellion.com/passmcp-reporting](/passmcp-reporting/)

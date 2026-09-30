@@ -7,14 +7,19 @@
 # release: the sample report is passmcp run against its fixture server, the
 # manual is passmcp's docs/, and the page's numbers come from that report.
 
-.PHONY: all core site passmcp sample data check-data manual test serve clean help name-guard
+.PHONY: all core site passmcp sample data check-data family check-family manual test coverage coverage-publish verify-versions readme-check lint complexity check serve clean help name-guard
 
 PASSMCP_REPO ?= https://github.com/sebastienrousseau/passmcp
-# The latest release tag unless one is named: make site PASSMCP_REF=v0.0.1
+# The latest release tag unless one is named: make site PASSMCP_REF=v0.0.3
 PASSMCP_REF  ?= $(shell git ls-remote --tags --refs --sort=-v:refname $(PASSMCP_REPO) 'v*' | head -n1 | sed 's|.*refs/tags/||')
 SSG_VERSION ?= 0.0.63
 WORK := .build
 DIST := dist
+# The tests' own virtual environment: coverage.py, hash-locked.
+TESTENV := $(WORK)/venv-test
+# The family's coverage gate. coverage.py measures branches too, so the gate
+# holds statements and branches together to this floor.
+COVERAGE_MIN := 85
 
 all: site
 
@@ -39,9 +44,63 @@ data: sample
 check-data: sample
 	python3 scripts/site_data.py $(WORK)/sample/report.json content/passmcp/index.md $(WORK)/passmcp/docs/checks.md --check
 
+# The family table on the company page and passmcp's page, from the
+# ecosystem.json of the passmcp release being built. site renders it from
+# that release, as it does the numbers, and pull requests run check-family
+# beside check-data. passmcp 0.0.2 publishes schema 2; family.py still reads
+# schema 1, which passmcp 0.0.1 published.
+FAMILY_MANIFEST ?= $(WORK)/passmcp/ecosystem.json
+
+family: passmcp
+	python3 scripts/family.py $(FAMILY_MANIFEST) _layouts/family.html $(PASSMCP_REF)
+
+check-family: passmcp
+	python3 scripts/family.py $(FAMILY_MANIFEST) _layouts/family.html $(PASSMCP_REF) --check
+
 # The site's own scripts' tests (python3's unittest; no dependencies).
 test:
 	python3 -m unittest discover -s scripts -p 'test_*.py'
+
+$(TESTENV)/.installed: scripts/requirements.txt
+	python3 -m venv $(TESTENV)
+	$(TESTENV)/bin/pip install --quiet --disable-pip-version-check --require-hashes -r scripts/requirements.txt
+	touch $@
+
+# The same tests under coverage.py, gated at COVERAGE_MIN, and the
+# shields.io endpoint document behind the README's coverage badge.
+coverage: $(TESTENV)/.installed
+	$(TESTENV)/bin/python -m coverage erase
+	$(TESTENV)/bin/python -m coverage run -m unittest discover -s scripts -p 'test_*.py'
+	$(TESTENV)/bin/python -m coverage report -m --fail-under=$(COVERAGE_MIN)
+	$(TESTENV)/bin/python -m coverage json -q -o $(WORK)/coverage-report.json
+	python3 scripts/coverage_badge.py $(WORK)/coverage-report.json $(WORK)/coverage.json
+
+# Into the built site, where the badge reads it: https://satellion.com/coverage.json.
+# After core or site, because SSG wipes $(DIST) on every build.
+coverage-publish: coverage
+	@test -d $(DIST) || { echo "coverage-publish: build the site first (make core or make site)" >&2; exit 1; }
+	cp $(WORK)/coverage.json $(DIST)/coverage.json
+
+# The portfolio's complexity ceilings on the build's scripts: cyclomatic
+# 10 per function (xenon's rank B) and cognitive 15 (complexipy).
+complexity: $(TESTENV)/.installed
+	$(TESTENV)/bin/xenon --max-absolute B --max-modules B --max-average A scripts
+	$(TESTENV)/bin/complexipy scripts --max-complexity-allowed 15 --quiet
+
+# Every version reference names the newest CHANGELOG release.
+verify-versions:
+	scripts/verify-release-versions.sh
+
+readme-check:
+	scripts/readme-check.sh
+
+# The prose gates docs-lint.yml runs, for the tools installed locally.
+lint: readme-check name-guard
+	codespell
+	npx --yes markdownlint-cli2@0.18.1
+
+# Everything CI checks that needs no passmcp release.
+check: lint complexity verify-versions coverage core
 
 manual: passmcp
 	python3 -m venv $(WORK)/venv
@@ -78,8 +137,8 @@ core:
 	@echo "core: built $(DIST)"
 
 # site is core plus what comes from the passmcp release: the numbers on the
-# product page, the manual and the sample report.
-site: data manual core
+# product page, the family table, the manual and the sample report.
+site: data family manual core
 	cp -R $(WORK)/manual $(DIST)/passmcp/docs
 	cp -R $(WORK)/sample $(DIST)/passmcp/sample
 	# Last, because it indexes the finished tree.

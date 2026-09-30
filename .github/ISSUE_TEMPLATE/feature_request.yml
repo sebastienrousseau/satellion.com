@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+name: Content request
+description: A page, a section or a URL the site should serve
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What you could not find
+      description: What were you trying to learn or resolve? Describe the situation, not the page.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What the site should add
+      description: Every claim on the site needs evidence; link the source, the release or the issue behind it.
+    validations:
+      required: true

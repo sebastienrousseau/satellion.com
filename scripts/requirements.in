@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+#
+# The tools the site's own gates need beyond the standard library:
+# coverage.py for the coverage gate and the README's coverage badge, and
+# xenon and complexipy for the complexity ceilings (cyclomatic 10,
+# cognitive 15).
+# Regenerate the hash-locked scripts/requirements.txt with:
+#   uv pip compile --generate-hashes --python-version 3.12 --universal scripts/requirements.in -o scripts/requirements.txt
+coverage
+xenon
+complexipy

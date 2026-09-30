@@ -1,0 +1,81 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
+name: CI
+
+# The gates that need no passmcp release: the site's scripts' tests under
+# the coverage gate, every version reference against the CHANGELOG, and the
+# core build (the company page, the product page with its committed
+# numbers, the Go module and format pages, security.txt). pages.yml builds
+# and deploys the full site against passmcp's release; this workflow is
+# what a pull request must pass whatever passmcp has released.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Tests and coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          show-progress: false
+
+      # 3.12 is the floor README.md and DEVELOPMENT.md state.
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      - name: The site's scripts pass their tests
+        run: make test
+
+      - name: Coverage meets the gate
+        run: make coverage
+
+      - name: Complexity stays under the ceilings
+        run: make complexity
+
+      - name: Every version reference agrees
+        run: make verify-versions
+
+  core:
+    name: Core build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          show-progress: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      # The Makefile refuses any other version, so the floor is enforced
+      # where it is stated.
+      - name: Install SSG
+        run: cargo install ssg --locked --version 0.0.63
+
+      - name: The pages that need no passmcp release build
+        run: make core

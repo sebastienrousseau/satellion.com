@@ -535,7 +535,7 @@ a[href]::after { content: " (" attr(href) ")"; overflow-wrap: anywhere; }
  * looking at the light theme, gets dark scrollbars on a cream page. It has
  * to follow the theme.
  *
- * Re-declared unlayered because that is the only place that wins. */
+ * Redeclared unlayered because that is the only place that wins. */
 :root,
 :root[data-theme="light"] {
   --background-color: var(--bg);

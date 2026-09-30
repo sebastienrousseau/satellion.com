@@ -19,8 +19,8 @@ from pathlib import Path
 MIN_HEADROOM = datetime.timedelta(days=30)
 
 
-def problems(text, now):
-    """Return what the security.txt lacks, as readable messages."""
+def parse(text):
+    """The file's fields, by lower-cased name, each with every value given."""
     fields = {}
     for line in text.splitlines():
         line = line.strip()
@@ -28,23 +28,34 @@ def problems(text, now):
             continue
         name, value = line.split(":", 1)
         fields.setdefault(name.strip().lower(), []).append(value.strip())
+    return fields
+
+
+def expiry_problem(expires, now):
+    """What is wrong with the Expires values, or None."""
+    if len(expires) != 1:
+        return f"security.txt must have exactly one Expires field, has {len(expires)}"
+    try:
+        at = datetime.datetime.fromisoformat(expires[0].replace("Z", "+00:00"))
+    except ValueError:
+        return f"security.txt Expires is not an RFC 3339 date: {expires[0]}"
+    if at.tzinfo is None:
+        return f"security.txt Expires has no time zone: {expires[0]}"
+    if at - now < MIN_HEADROOM:
+        return f"security.txt expires {at.date()}, less than 30 days away; move security_expires on in content/index.md"
+    return None
+
+
+def problems(text, now):
+    """Return what the security.txt lacks, as readable messages."""
+    fields = parse(text)
     out = [
         f"security.txt has no {name.capitalize()} field"
         for name in ("contact", "policy", "canonical")
         if not fields.get(name)
     ]
-    expires = fields.get("expires", [])
-    if len(expires) != 1:
-        return out + [f"security.txt must have exactly one Expires field, has {len(expires)}"]
-    try:
-        at = datetime.datetime.fromisoformat(expires[0].replace("Z", "+00:00"))
-    except ValueError:
-        return out + [f"security.txt Expires is not an RFC 3339 date: {expires[0]}"]
-    if at.tzinfo is None:
-        return out + [f"security.txt Expires has no time zone: {expires[0]}"]
-    if at - now < MIN_HEADROOM:
-        out.append(f"security.txt expires {at.date()}, less than 30 days away; move security_expires on in content/index.md")
-    return out
+    expiry = expiry_problem(fields.get("expires", []), now)
+    return out + [expiry] if expiry else out
 
 
 def main(argv):

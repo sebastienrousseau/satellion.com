@@ -103,21 +103,12 @@ trust_two_text: "No account, no analytics, no phone-home. passmcp contacts the s
 trust_three_title: "Never in the data path"
 trust_three_text: "passmcp does not proxy, terminate or forward an agent's request, and no agent request waits on anything passmcp operates. ADR 0007 draws that line, and the gateway integrations respect it."
 trust_four_title: "Compliance, stated honestly"
-trust_four_text: "passmcp holds no SOC 2 or ISO 27001 certificate; those apply to service providers, and passmcp runs on yours. Mapping every check to SOC 2, ISO 27001 and GDPR controls, so its evidence drops into your audit, is planned work in issues #1 to #3."
+trust_four_text: "passmcp holds no SOC 2 or ISO 27001 certificate; those apply to service providers, and passmcp runs on yours. Every check is mapped to the SOC 2 Trust Services Criteria, ISO/IEC 27001:2022 Annex A and GDPR articles it evidences, released in 0.0.1, so its evidence drops into your audit. Mappings, not certifications: an auditor certifies."
 
 context_eyebrow: "Why now"
 context_title: "The dates your agent programme is working to."
 context_lead: "Agents are moving into production while the guidance and the obligations around them arrive. Each date below links to its source."
 
-roadmap_eyebrow: "Planned"
-roadmap_title: "What is being built next, in the open."
-roadmap_lead: "None of this ships today. Each item is a public issue whose acceptance criteria become the regression tests that prove it."
-road_one_title: "Explicit discovery and live validation"
-road_one_text: "Find MCP endpoints from sources you name (hosts, client configurations, gateways, your registry namespace), validate each one live, and flag any that answer without authentication."
-road_two_title: "passmcp-graph"
-road_two_text: "A local, open graph of which agents reach which servers and tools, under which identities and scopes, with each server's attested verdict attached. Runs on your side; nothing leaves."
-road_three_title: "Compliance evidence"
-road_three_text: "Each check mapped to SOC 2 Trust Services Criteria, ISO/IEC 27001:2022 Annex A and GDPR articles, with evidence bundles built from signed attestations."
 
 faq_eyebrow: "Questions"
 faq_title: "The things people ask before installing."
@@ -192,7 +183,7 @@ evidence_2_req: "req#12"
 evidence_2_id: "protocol.unknown_tool"
 evidence_2_title: "Unknown tool is reported"
 evidence_2_detail: "calling a non-existent tool returned success"
-readout_version: "0.0.1"
+readout_version: "0.0.3"
 ---
 
 ## Install
@@ -202,7 +193,7 @@ brew install sebastienrousseau/tap/passmcp     # macOS and Linux
 yay -S passmcp                                 # Arch Linux, or: paru -S passmcp
 mise use -g github:sebastienrousseau/passmcp   # with mise
 nix run github:sebastienrousseau/passmcp -- --help
-go install satellion.com/passmcp/cmd/passmcp@v0.0.1
+go install satellion.com/passmcp/cmd/passmcp@v0.0.3
 ```
 
 Then point it at a server:
